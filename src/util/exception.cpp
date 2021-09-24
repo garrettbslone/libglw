@@ -7,9 +7,15 @@
 namespace glw {
 
 out_of_bounds_ex::out_of_bounds_ex(std::string msg)
-        :msg(msg) { }
+        : msg(msg) {}
 
 out_of_bounds_ex::~out_of_bounds_ex()
-= default;
+        = default;
+
+div_by_zero_ex::div_by_zero_ex(std::string msg)
+        : msg(msg) {}
+
+div_by_zero_ex::~div_by_zero_ex()
+        = default;
 
 };

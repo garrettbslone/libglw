@@ -1,9 +1,12 @@
-#ifndef SRC_GLW_HPP
-#define SRC_GLW_HPP
+#ifndef GLW_HPP
+#define GLW_HPP
 
 #include "math/vec.hpp"
+#include "math/vec2.hpp"
+#include "math/vec3.hpp"
+#include "math/vec4.hpp"
 #include "util/exception.hpp"
 
 void hello();
 
-#endif //SRC_GLW_HPP
+#endif //GLW_HPP

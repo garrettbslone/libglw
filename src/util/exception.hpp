@@ -18,6 +18,14 @@ public:
     ~out_of_bounds_ex() override;
 };
 
+class div_by_zero_ex : public std::exception {
+public:
+    std::string msg{};
+
+    explicit div_by_zero_ex(std::string msg);
+    ~div_by_zero_ex() override;
+};
+
 }
 
 #endif //LIBGLW_EXCEPTION_HPP
