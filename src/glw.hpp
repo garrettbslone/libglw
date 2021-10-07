@@ -11,6 +11,4 @@
 #include "util/exception.hpp"
 #include "util/math.hpp"
 
-void hello();
-
 #endif //GLW_HPP
