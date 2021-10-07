@@ -7,6 +7,7 @@
 #include "math/vec4.hpp"
 #include "math/mat.hpp"
 #include "util/exception.hpp"
+#include "util/math.hpp"
 
 void hello();
 
