@@ -10,18 +10,19 @@
 
 namespace glw {
 
-class out_of_bounds_ex : public std::exception {
+class glw_runtime_ex : public std::exception {
 public:
     std::string msg{};
+};
 
+class out_of_bounds_ex : public glw_runtime_ex {
+public:
     explicit out_of_bounds_ex(std::string msg);
     ~out_of_bounds_ex() override;
 };
 
-class div_by_zero_ex : public std::exception {
+class div_by_zero_ex : public glw_runtime_ex {
 public:
-    std::string msg{};
-
     explicit div_by_zero_ex(std::string msg);
     ~div_by_zero_ex() override;
 };

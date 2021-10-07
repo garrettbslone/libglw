@@ -21,8 +21,7 @@ public:
     static vec3<T> Y;
     static vec3<T> Z;
 
-    const int _dim = 3;
-    int dim() override { return _dim; }
+    int dim() override { return DIM; }
 
     vec3();
     explicit vec3(vec3 *);
@@ -75,6 +74,9 @@ public:
     bool operator!=(vec3<T> *v) const;
 
     std::string str() override;
+
+private:
+    const int DIM = 3;
 };
 
 template<typename T>
@@ -371,7 +373,7 @@ T *vec3<T>::raw_data()
 template<typename T>
 T &vec3<T>::operator[](int i)
 {
-    if (i < 0 || i > this->dim)
+    if (i < 0 || i >= this->dim)
         throw out_of_bounds_ex(
                 "Index: " + std::to_string(i) + " out of bounds for vec3");
 

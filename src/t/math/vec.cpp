@@ -3,8 +3,6 @@
 //
 
 #include <iostream>
-#include <vector>
-
 #include <glw.hpp>
 
 #include "../include/test_res.hpp"
@@ -14,10 +12,9 @@ using namespace glw;
 using std::cout;
 using std::endl;
 using std::string;
-using std::vector;
 using std::to_string;
 
-void vec_basic_test(test_res *res, int dim, vec<double> *u);
+void vec_base_test(test_res *res, int dim, vec<double> *u);
 void vec_arithmetic_test(test_res *res, vec<double> *u, vec<double> *v, vec<double> *w);
 void vec2_operator_test(test_res *res);
 void vec3_operator_test(test_res *res);
@@ -53,9 +50,9 @@ int main(int argc, char *argv[])
     cout << "starting...\n";
     cout << "basic...\n";
 
-    vec_basic_test(res, 2, v2[0]);
-    vec_basic_test(res, 3, v3[0]);
-    vec_basic_test(res, 4, v4[0]);
+    vec_base_test(res, 2, v2[0]);
+    vec_base_test(res, 3, v3[0]);
+    vec_base_test(res, 4, v4[0]);
 
     (void) v2[0]->set(1.0, 1.0);
     (void) v3[0]->set(1.0, 1.0, 1.0);
@@ -106,7 +103,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void vec_basic_test(test_res *res, int dim, vec<double> *u)
+void vec_base_test(test_res *res, int dim, vec<double> *u)
 {
     res->inc_total(5);
 
@@ -177,7 +174,7 @@ void vec_basic_test(test_res *res, int dim, vec<double> *u)
 
         if (w->raw_data()[0] != 1.0 || w->raw_data()[1] != -1.0 ||
             w->raw_data()[2] != 2.0)
-            res->fail("vec2: set");
+            res->fail("vec3: set");
         else
             res->pass();
 
@@ -190,7 +187,7 @@ void vec_basic_test(test_res *res, int dim, vec<double> *u)
 
         if (w->raw_data()[0]!=1.0 || w->raw_data()[1]!=-1.0 ||
             w->raw_data()[2]!=2.0 || w->raw_data()[3]!=-2.0)
-            res->fail("vec2: set");
+            res->fail("vec4: set");
         else
             res->pass();
 
