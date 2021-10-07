@@ -20,8 +20,7 @@ public:
     static vec2<T> X;
     static vec2<T> Y;
 
-    const int _dim = 2;
-    int dim() override { return _dim; }
+    int dim() override { return DIM; }
 
     vec2();
     explicit vec2(vec2 *);
@@ -71,6 +70,9 @@ public:
     bool operator!=(vec2<T> *v) const;
 
     std::string str() override;
+
+private:
+    const int DIM = 2;
 };
 
 template<typename T>
@@ -338,7 +340,7 @@ T *vec2<T>::raw_data()
 template<typename T>
 T &vec2<T>::operator[](int i)
 {
-    if (i < 0 || i > this->_dim)
+    if (i < 0 || i >= this->DIM)
         throw out_of_bounds_ex(
                 "Index: " + std::to_string(i) + " out of bounds for vec3");
 

@@ -22,8 +22,7 @@ public:
     static vec4<T> Z;
     static vec4<T> W;
 
-    const int _dim = 4;
-    int dim() override { return _dim; }
+    int dim() override { return DIM; }
 
     vec4();
     explicit vec4(vec4 *);
@@ -75,6 +74,9 @@ public:
     bool operator!=(vec4<T> *v) const;
 
     std::string str() override;
+
+private:
+    const int DIM = 4;
 };
 
 template<typename T>
@@ -377,7 +379,7 @@ T *vec4<T>::raw_data()
 template<typename T>
 T &vec4<T>::operator[](int i)
 {
-    if (i < 0 || i > this->dim)
+    if (i < 0 || i >= this->dim)
         throw out_of_bounds_ex(
                 "Index: " + std::to_string(i) + " out of bounds for vec3");
 
