@@ -8,7 +8,7 @@ set(TARGET_DIRS "math" "util")
 FILE(GLOB MATH_SRCS math/*.[ch]pp)
 FILE(GLOB UTIL_SRCS util/*.[ch]pp)
 
-add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS} util/math.cpp)
+add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${TARGET_DIRS})
 target_link_directories(${PROJECT_NAME} PUBLIC ${TARGET_DIRS})
