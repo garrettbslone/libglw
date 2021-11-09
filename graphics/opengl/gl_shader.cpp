@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include "gl_shader.hpp"
+#include "../../util/exception.hpp"
 #include "../../ext/glad/gl.h"
 
 namespace glw {
@@ -50,22 +51,22 @@ void gl_shader::set_float_arr(const std::string &name, float *vals, uint32_t cnt
     this->set_uniform_float_arr(name, vals, cnt);
 }
 
-void gl_shader::set_float2(const std::string &name, vec2<float> *v)
+void gl_shader::set_float2(const std::string &name, const glm::vec2 &v)
 {
     this->set_uniform_float2(name, v);
 }
 
-void gl_shader::set_float3(const std::string &name, vec3<float> *v)
+void gl_shader::set_float3(const std::string &name,const glm::vec3 &v)
 {
     this->set_uniform_float3(name, v);
 }
 
-void gl_shader::set_float4(const std::string &name, vec4<float> *v)
+void gl_shader::set_float4(const std::string &name, const glm::vec4 &v)
 {
     this->set_uniform_float4(name, v);
 }
 
-void gl_shader::set_mat4(const std::string &name, mat4<float> *m)
+void gl_shader::set_mat4(const std::string &name, const glm::mat4 &m)
 {
     this->set_uniform_mat4(name, m);
 }
@@ -94,34 +95,34 @@ void gl_shader::set_uniform_float_arr(const std::string &name, float *vals, uint
     glUniform1fv(loc, cnt, vals);
 }
 
-void gl_shader::set_uniform_float2(const std::string &name, vec2<float> *v)
+void gl_shader::set_uniform_float2(const std::string &name, const glm::vec2 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniform2f(loc, v->x(), v->y());
+    glUniform2f(loc, v.x, v.y);
 }
 
-void gl_shader::set_uniform_float3(const std::string &name, vec3<float> *v)
+void gl_shader::set_uniform_float3(const std::string &name, const glm::vec3 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniform3f(loc, v->x(), v->y(), v->z());
+    glUniform3f(loc, v.x, v.y, v.z);
 }
 
-void gl_shader::set_uniform_float4(const std::string &name, vec4<float> *v)
+void gl_shader::set_uniform_float4(const std::string &name, const glm::vec4 &v)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniform4f(loc, v->x(), v->y(), v->z(), v->w());
+    glUniform4f(loc, v.x, v.y, v.z, v.w);
 }
 
-void gl_shader::set_uniform_mat3(const std::string &name, mat3<float> *m)
+void gl_shader::set_uniform_mat3(const std::string &name, const glm::mat3 &m)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniformMatrix3fv(loc, 1, GL_TRUE, m->raw_data());
+    glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
-void gl_shader::set_uniform_mat4(const std::string &name, mat4<float> *m)
+void gl_shader::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniformMatrix3fv(loc, 1, GL_TRUE, m->raw_data());
+    glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
 std::string gl_shader::read_file(const std::string &f_path)

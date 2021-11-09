@@ -23,10 +23,10 @@ public:
     void set_int_arr(const std::string &name, int *vals, uint32_t cnt) override;
     void set_float(const std::string &name, float val) override;
     void set_float_arr(const std::string &name, float *vals, uint32_t cnt) override;
-    void set_float2(const std::string &name, vec2<float> *v) override;
-    void set_float3(const std::string &name, vec3<float> *v) override;
-    void set_float4(const std::string &name, vec4<float> *v) override;
-    void set_mat4(const std::string &name, mat4<float> *m) override;
+    void set_float2(const std::string &name, const glm::vec2 &v) override;
+    void set_float3(const std::string &name, const glm::vec3 &v) override;
+    void set_float4(const std::string &name, const glm::vec4 &v) override;
+    void set_mat4(const std::string &name, const glm::mat4 &vm) override;
 
     /*
      * Pass some values to the vertex shader of this shader program as uniforms.
@@ -35,11 +35,11 @@ public:
     void set_uniform_int_arr(const std::string &name, int *vals, uint32_t cnt);
     void set_uniform_float(const std::string &name, float val);
     void set_uniform_float_arr(const std::string &name, float *vals, uint32_t cnt);
-    void set_uniform_float2(const std::string &name, vec2<float> *v);
-    void set_uniform_float3(const std::string &name, vec3<float> *v);
-    void set_uniform_float4(const std::string &name, vec4<float> *v);
-    void set_uniform_mat3(const std::string &name, mat3<float> *m);
-    void set_uniform_mat4(const std::string &name, mat4<float> *m);
+    void set_uniform_float2(const std::string &name, const glm::vec2 &v);
+    void set_uniform_float3(const std::string &name, const glm::vec3 &v);
+    void set_uniform_float4(const std::string &name, const glm::vec4 &v);
+    void set_uniform_mat3(const std::string &name, const glm::mat3 &m);
+    void set_uniform_mat4(const std::string &name, const glm::mat4 &m);
 
 private:
     /*

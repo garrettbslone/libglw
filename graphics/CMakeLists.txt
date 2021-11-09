@@ -11,8 +11,9 @@ add_library(graphics ${GRAPHICS_SRCS} ${GL_SRCS} ${CMAKE_SOURCE_DIR}/ext/glad/gl
 
 MESSAGE(${CMAKE_SOURCE_DIR})
 target_include_directories(graphics PUBLIC
-        ${CMAKE_SOURCE_DIR}/etx/glfw/include PUBLIC
-        ${CMAKE_SOURCE_DIR}/ext/stb_image PUBLIC
-        ${CMAKE_SOURCE_DIR}/etx PUBLIC)
+        ${CMAKE_CURRENT_SOURCE_DIR}/../etx/glfw/include PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../ext/stb_image PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../etx PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../ext/glm PUBLIC)
 target_link_directories(graphics PRIVATE ${CMAKE_SOURCE_DIR}/ext/glfw/src)
 target_link_libraries(graphics glfw)
