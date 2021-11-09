@@ -5,11 +5,8 @@
 #ifndef GLW_SHADER_HPP
 #define GLW_SHADER_HPP
 
-
-#include "../math/vec2.hpp"
-#include "../math/vec3.hpp"
-#include "../math/vec4.hpp"
-#include "../math/mat4.hpp"
+#include <string>
+#include <glm/glm.hpp>
 
 namespace glw {
 
@@ -37,10 +34,10 @@ public:
     virtual void set_int_arr(const std::string &name, int *vals, uint32_t cnt) = 0;
     virtual void set_float(const std::string &name, float val) = 0;
     virtual void set_float_arr(const std::string &name, float *vals, uint32_t cnt) = 0;
-    virtual void set_float2(const std::string &name, vec2<float> *v) = 0;
-    virtual void set_float3(const std::string &name, vec3<float> *v) = 0;
-    virtual void set_float4(const std::string &name, vec4<float> *v) = 0;
-    virtual void set_mat4(const std::string &name, mat4<float> *m) = 0;
+    virtual void set_float2(const std::string &name, const glm::vec2 &v) = 0;
+    virtual void set_float3(const std::string &name, const glm::vec3 &v) = 0;
+    virtual void set_float4(const std::string &name, const glm::vec4 &v) = 0;
+    virtual void set_mat4(const std::string &name, const glm::mat4 &m) = 0;
 
     inline const std::string &get_name() const { return this->name; }
 

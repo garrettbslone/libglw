@@ -3,8 +3,8 @@ project(glw)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(TEST_SRCS "math/vec" "math/mat" "graphics/graphics")
-set(TEST_BINS "vec" "mat" "graphics")
+set(TEST_SRCS "graphics/graphics")
+set(TEST_BINS "graphics")
 
 foreach(BIN SRC IN ZIP_LISTS TEST_BINS TEST_SRCS)
     add_executable(${BIN}-t ${SRC}.cpp include/test_res.hpp)
