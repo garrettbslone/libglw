@@ -6,10 +6,10 @@
 #define LIBGLW_WINDOW_HPP
 
 #define GLFW_INCLUDE_NONE
-#include "../ext/glfw/include/GLFW/glfw3.h"
+#include "GLFW/glfw3.h"
 
-#include "framebuffer.hpp"
-#include "graphics_context.hpp"
+#include "../graphics/framebuffer.hpp"
+#include "../graphics/graphics_context.hpp"
 #include "../input/input.hpp"
 
 #include <functional>
