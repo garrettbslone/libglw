@@ -18,14 +18,16 @@ if (GIT_FOUND AND EXISTS "${PROJECT_SOURCE_DIR}/.git")
 endif()
 
 add_subdirectory(ext/glfw)
+add_subdirectory(ext/glm)
 add_subdirectory(graphics)
 
-set(TARGET_DIRS "math" "util" "graphics")
+set(TARGET_DIRS "math" "util" "graphics" "core")
 
 FILE(GLOB MATH_SRCS math/*.[ch]pp)
 FILE(GLOB UTIL_SRCS util/*.[ch]pp)
+FILE(GLOB CORE_SRCS core/*.[ch]pp)
 
-add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS})
+add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS} ${CORE_SRCS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${TARGET_DIRS})
 target_link_directories(${PROJECT_NAME} PRIVATE ${TARGET_DIRS})
