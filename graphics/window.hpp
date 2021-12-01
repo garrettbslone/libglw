@@ -10,6 +10,7 @@
 
 #include "framebuffer.hpp"
 #include "graphics_context.hpp"
+#include "../input/input.hpp"
 
 #include <functional>
 
@@ -31,6 +32,7 @@ using close_cb = std::function<void(void)>;
 
 struct window_data {
     close_cb close_;
+    input *input_;
 };
 
 /*
@@ -40,6 +42,7 @@ struct window_data {
 class window {
 public:
     explicit window(const window_spec &spec);
+    window(const window_spec &spec, const window_data &data);
     ~window();
 
     /*
@@ -64,6 +67,9 @@ public:
      * Set the window's title.
      */
     void set_title(const std::string& title);
+
+    void set_window_data(const window_data &data);
+
     /*
      * Update the window. This should be called once per render pass.
      * Returns true if the window is closing or false otherwise.
@@ -75,6 +81,7 @@ public:
      * implementation.
      */
     void *get_native_window();
+
     inline framebuffer *get_framebuffer() const { return this->fb_; }
 
     inline double get_aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
@@ -98,10 +105,11 @@ private:
      */
     void create();
 
-    const char *err{nullptr};
+    const char *err_{nullptr};
 
     window_spec spec_;
     window_data data_;
+
     framebuffer *fb_;
     graphics_context *graphics_ctx_;
     color clear_clr_;

@@ -14,17 +14,21 @@
 namespace glw {
 
 window::window(const window_spec &spec)
+    : window(spec, {nullptr, nullptr}) {}
+
+window::window(const window_spec &spec, const window_data &data)
 {
     if (!glfwInit())
         throw viewport_ex("Failed to create window. GLFW init failed");
 
     this->spec_ = spec;
+    this->data_ = data;
 
     if (!(this->monitor_ = glfwGetPrimaryMonitor())) {
-        glfwGetError(&this->err);
+        glfwGetError(&this->err_);
         glfwTerminate();
 
-        throw viewport_ex("Failed to find monitor_" + std::string(this->err));
+        throw viewport_ex("Failed to find monitor_" + std::string(this->err_));
     }
 
     const GLFWvidmode *m = glfwGetVideoMode(monitor_);
@@ -63,18 +67,17 @@ void window::force_fullscreen()
     this->spec_.maximized_ = false;
 
     if (!this->monitor_ && !(this->monitor_ = glfwGetPrimaryMonitor())) {
-        glfwGetError(&this->err);
-
+        glfwGetError(&this->err_);
         throw viewport_ex("Couldn't make window fullscreen: " +
-                          std::string(this->err));
+                          std::string(this->err_));
     }
 
     const GLFWvidmode *m = glfwGetVideoMode(this->monitor_);
     if (!m) {
-        glfwGetError(&this->err);
+        glfwGetError(&this->err_);
 
         throw viewport_ex("Couldn't make window fullscreen: " +
-                          std::string(this->err));
+                          std::string(this->err_));
     }
 
     glfwSetWindowMonitor(this->native_window_,
@@ -110,6 +113,11 @@ void window::set_title(const std::string& title)
     this->spec_.title_ = title;
 
     glfwSetWindowTitle(this->native_window_, title.c_str());
+}
+
+void window::set_window_data(const window_data &data)
+{
+    this->data_ = data;
 }
 
 bool window::update()
@@ -164,7 +172,7 @@ void window::create()
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     glfwWindowHint(GLFW_FOCUSED, GLFW_TRUE);
     glfwWindowHint(GLFW_TRANSPARENT_FRAMEBUFFER, GLFW_TRUE);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
@@ -174,24 +182,61 @@ void window::create()
                                                   this->spec_.fullscreen_ ? this->monitor_ : nullptr,
                                                   nullptr))) {
 
-        glfwGetError(&this->err);
+        glfwGetError(&this->err_);
         glfwTerminate();
 
-        throw viewport_ex("Failed to create window: " + std::string(this->err));
+        throw viewport_ex("Failed to create window: " + std::string(this->err_));
     }
 
     this->graphics_ctx_ = graphics_context::create(this->native_window_);
     this->graphics_ctx_->init();
 
-    this->data_.close_ = _close_cb;
-    glfwSetWindowUserPointer(this->native_window_, &this->data_);
+    if (!this->data_.close_)
+        this->data_.close_ = _close_cb;
 
+    glfwSetWindowUserPointer(this->native_window_, &this->data_);
     glfwSwapInterval(0);
-    glfwSetWindowCloseCallback(this->native_window_, [](GLFWwindow *w) {
+
+    glfwSetWindowCloseCallback(this->native_window_, [](GLFWwindow *w)
+    {
         auto &data = *((window_data *) glfwGetWindowUserPointer(w));
 
         if (data.close_)
             data.close_();
+    });
+
+    glfwSetKeyCallback(this->native_window_, [](GLFWwindow* w, int k, int scancode, int action, int mods)
+    {
+        auto &data = *((window_data *) glfwGetWindowUserPointer(w));
+
+        if (!data.input_)
+            return;
+
+        if ((action == GLFW_PRESS || action == GLFW_REPEAT) && data.input_->key_down)
+            data.input_->key_down(k);
+        else if (action == GLFW_RELEASE && data.input_->key_up)
+            data.input_->key_up(k);
+    });
+
+    glfwSetMouseButtonCallback(this->native_window_, [](GLFWwindow* w, int btn, int action, int mods)
+    {
+        auto &data = *((window_data *) glfwGetWindowUserPointer(w));
+
+        if (!data.input_)
+            return;
+
+        if ((action == GLFW_PRESS || action == GLFW_REPEAT) && data.input_->mouse_btn_down)
+            data.input_->mouse_btn_down(btn);
+        else if (action == GLFW_RELEASE && data.input_->mouse_btn_up)
+            data.input_->mouse_btn_up(btn);
+    });
+
+    glfwSetCursorPosCallback(this->native_window_, [](GLFWwindow *w, double x, double y)
+    {
+        auto &data = *((window_data *) glfwGetWindowUserPointer(w));
+
+        if (data.input_ && data.input_->mouse_move)
+            data.input_->mouse_move(x, y);
     });
 
     this->fb_ = framebuffer::create();
@@ -199,9 +244,6 @@ void window::create()
     this->resize_framebuffer();
 
     this->clear_clr_ = color(0.8, 0.5, 0.2, 1.0);
-
-    this->data_.close_ = _close_cb;
 }
-
 
 }

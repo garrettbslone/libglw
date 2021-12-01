@@ -19,6 +19,7 @@ endif()
 
 add_subdirectory(ext/glfw)
 add_subdirectory(ext/glm)
+add_subdirectory(input)
 add_subdirectory(graphics)
 
 set(TARGET_DIRS "math" "util" "graphics" "core")
