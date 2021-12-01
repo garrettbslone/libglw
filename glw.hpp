@@ -1,6 +1,8 @@
 #ifndef GLW_HPP
 #define GLW_HPP
 
+#include "core/app.hpp"
+
 #include "graphics/opengl/gl_buffer.hpp"
 #include "graphics/opengl/gl_framebuffer.hpp"
 #include "graphics/opengl/gl_shader.hpp"
