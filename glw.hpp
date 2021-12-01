@@ -2,6 +2,7 @@
 #define GLW_HPP
 
 #include "core/app.hpp"
+#include "core/window.hpp"
 
 #include "graphics/opengl/gl_buffer.hpp"
 #include "graphics/opengl/gl_framebuffer.hpp"
@@ -15,7 +16,6 @@
 #include "graphics/shader.hpp"
 #include "graphics/texture.hpp"
 #include "graphics/vertex_array.hpp"
-#include "graphics/window.hpp"
 
 #include "input/input.hpp"
 #include "input/key_codes.hpp"

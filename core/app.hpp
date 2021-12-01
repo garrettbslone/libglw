@@ -5,7 +5,7 @@
 #ifndef GLW_APP_HPP
 #define GLW_APP_HPP
 
-#include "../graphics/window.hpp"
+#include "window.hpp"
 #include "../input/input.hpp"
 
 namespace glw {
