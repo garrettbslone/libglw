@@ -17,6 +17,9 @@
 #include "graphics/vertex_array.hpp"
 #include "graphics/window.hpp"
 
+#include "input/input.hpp"
+#include "input/key_codes.hpp"
+
 #include "util/exception.hpp"
 
 #endif //GLW_HPP
