@@ -11,15 +11,27 @@
 #include "framebuffer.hpp"
 #include "graphics_context.hpp"
 
+#include <functional>
+
 namespace glw {
 
-#define WINDOW_MODE_FULLSCREEN (short) 1
-#define WINDOW_MODE_MAXIMIZED (short) 2
+class window;
+
+struct window_spec {
+    std::string title_{"glw app"};
+    uint32_t width_{1280}, height_{720};
+    bool fullscreen_{false}, maximized_{false};
+    float alpha_{1.f};
+};
 
 /*
  * Callback function to be called upon closing the window.
  */
-typedef void (*close_cb)();
+using close_cb = std::function<void(void)>;
+
+struct window_data {
+    close_cb close_;
+};
 
 /*
  * An object that encapsulates a window to be displayed on the screen as well
@@ -27,22 +39,7 @@ typedef void (*close_cb)();
  */
 class window {
 public:
-    window();
-    /*
-     * Creates a square window of dim x dim.
-     */
-    explicit window(int dim);
-    /*
-     * Creates either a fullscreen window or a maximized windowed mode window.
-     * 'mode' should be either WINDOW_MODE_FULLSCREEN or WINDOW_MODE_MAXIMIZED.
-     * If another value is passed as the 'mode', a viewport_ex exception will
-     * be thrown.
-     */
-    explicit window(short mode);
-    window(int dim, const std::string &title);
-    window(short mode, const std::string &title);
-    window(int width, int height);
-    window(int width, int height, const std::string &title);
+    explicit window(const window_spec &spec);
     ~window();
 
     /*
@@ -58,7 +55,7 @@ public:
      * Resize the window. If the window is in fullscreen mode, this call has no
      * effect.
      */
-    void resize(int width, int height);
+    void resize(uint32_t width, uint32_t height);
     /*
      * Sets the close callback function to be called upon hitting the x arrow.
      */
@@ -69,15 +66,18 @@ public:
     void set_title(const std::string& title);
     /*
      * Update the window. This should be called once per render pass.
+     * Returns true if the window is closing or false otherwise.
      */
-    void update();
+    bool update();
 
     /*
      * Returns a void pointer to the underlying native (OS) window
      * implementation.
      */
     void *get_native_window();
-    framebuffer *get_framebuffer() const { return this->fb; }
+    inline framebuffer *get_framebuffer() const { return this->fb_; }
+
+    inline double get_aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
 
 protected:
     GLFWwindow *get_g_window();
@@ -88,7 +88,7 @@ private:
     /*
      * GLFW framebuffer resize callback signature.
      */
-    void resize_framebuffer(GLFWwindow *w, int width, int height);
+    void resize_framebuffer(GLFWwindow *w, uint32_t width, uint32_t height);
     /*
      * GLFW window close callback signature.
      */
@@ -98,19 +98,16 @@ private:
      */
     void create();
 
-    int width, height;
-    bool maximize, fullscreen;
-    std::string title;
     const char *err{nullptr};
-    float a = 1.f;
 
-    framebuffer *fb;
-    graphics_context *ctx;
-    color clear_clr;
+    window_spec spec_;
+    window_data data_;
+    framebuffer *fb_;
+    graphics_context *graphics_ctx_;
+    color clear_clr_;
 
-    close_cb c_cb;
-    GLFWwindow *g_window;
-    GLFWmonitor *monitor;
+    GLFWwindow *native_window_;
+    GLFWmonitor *monitor_;
 };
 
 }
