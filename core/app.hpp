@@ -7,6 +7,7 @@
 
 #include "window.hpp"
 #include "../input/input.hpp"
+#include "../scene/scene.hpp"
 
 namespace glw {
 
@@ -30,6 +31,8 @@ public:
     void on_mouse_button_down(mouse_button_down_cb cb);
     void on_mouse_button_up(mouse_button_up_cb cb);
 
+    void attach_scene(scene *s);
+
     inline window *get_window() { return this->window_; }
 
     inline static app &get() { return *app::instance; }
@@ -37,6 +40,7 @@ public:
 private:
     input *input_;
     window *window_;
+    scene *scene_;
     app_spec spec_;
     bool running_, minimized_;
 

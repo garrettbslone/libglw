@@ -74,4 +74,10 @@ void app::on_mouse_button_up(mouse_button_up_cb cb)
     this->input_->mouse_btn_up = cb;
 }
 
+void app::attach_scene(scene *s)
+{
+    this->scene_ = s;
+    this->scene_->attach();
+}
+
 }

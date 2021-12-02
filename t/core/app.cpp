@@ -31,8 +31,13 @@ int main(int argc, char *argv[])
         auto a = new app(spec);
         a->on_mouse_move(mouse_mv);
         a->on_key_down(key_down);
+
+        auto *s = new scene;
+        a->attach_scene(s);
+
         a->run();
         delete a;
+        delete s;
 
     } catch (glw_runtime_ex &ex) {
         cout << ex.msg << endl;
