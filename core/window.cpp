@@ -239,6 +239,11 @@ void window::create()
             data.input_->mouse_move(x, y);
     });
 
+    glfwSetFramebufferSizeCallback(this->native_window_, [](GLFWwindow *w, int width, int height)
+    {
+        glViewport(0, 0, width, height);
+    });
+
     this->fb_ = framebuffer::create();
     this->fb_->set_clear_color(color(.66, .23, .54, 1));
     this->resize_framebuffer();
