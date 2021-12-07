@@ -9,9 +9,17 @@
 
 namespace glw {
 
+static void _update_cb(std::vector<drawable *> nodes)
+{
+    for (auto n: nodes) {
+        n->draw();
+    }
+}
+
 scene::scene()
 {
     this->nodes_ = std::vector<drawable *>();
+    this->update_ = _update_cb;
 }
 
 scene::~scene()
@@ -39,9 +47,13 @@ void scene::attach()
 
 void scene::update()
 {
-    for (auto n: this->nodes_) {
-        n->draw();
-    }
+    if (this->update_)
+        this->update_(this->nodes_);
+}
+
+void scene::on_update(update_cb cb)
+{
+    this->update_ = cb;
 }
 
 std::vector<drawable *> scene::get_nodes()
