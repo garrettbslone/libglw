@@ -14,11 +14,17 @@ gl_vertex_buffer::gl_vertex_buffer(uint32_t size)
     glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 }
 
-gl_vertex_buffer::gl_vertex_buffer(float *vertices, uint32_t size)
+gl_vertex_buffer::gl_vertex_buffer(float *vertices, uint32_t size, uint32_t vert_size)
 {
     glGenBuffers(1, &this->gl_id);
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
-    glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), vertices, GL_STATIC_DRAW);
+
+    for (auto i = 0; i < size; i++) {
+        this->vertices.push_back(vertices[i]);
+    }
+
+    this->vertex_size = vert_size;
 }
 
 gl_vertex_buffer::~gl_vertex_buffer()

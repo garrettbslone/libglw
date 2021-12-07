@@ -14,7 +14,7 @@ namespace glw {
  */
 class gl_vertex_array : public vertex_array {
 public:
-    gl_vertex_array();
+    explicit gl_vertex_array();
     virtual ~gl_vertex_array();
 
     void bind() const override;
@@ -31,7 +31,7 @@ private:
      * gl_id: the index id of the vertex_array in the OpenGL state machine.
      * v_buff_index: the index of the next attribute to be bound.
      */
-    uint32_t gl_id, v_buff_index = 0;
+    uint32_t gl_id, v_buff_index = 0, offset_ = 0;
     std::vector<vertex_buffer *> v_buffs;
     index_buffer *i_buff;
 };

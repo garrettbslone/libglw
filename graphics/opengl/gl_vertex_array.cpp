@@ -35,15 +35,15 @@ void gl_vertex_array::add_vertex_buffer(vertex_buffer *buff)
 
     buff->bind();
 
-    // for now assuming all vertex buffers contain only 3D float positions
     glEnableVertexAttribArray(this->v_buff_index);
     glVertexAttribPointer(this->v_buff_index++,
-                          3,
+                          buff->get_vertex_size(),
                           GL_FLOAT,
                           GL_FALSE,
-                          3 * sizeof(float),
-                          nullptr);
+                          0,
+                          reinterpret_cast<GLvoid *>(this->offset_));
 
+    this->offset_ += buff->get_vertex_size() * sizeof(float);
     this->v_buffs.push_back(buff);
 }
 
