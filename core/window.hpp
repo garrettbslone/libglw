@@ -86,6 +86,9 @@ public:
 
     inline double get_aspect_ratio() { return static_cast<double>(this->spec_.width_) / this->spec_.height_; }
 
+    color &get_clear_clr() { return clear_clr_; }
+    void set_clear_clr(const color &clear_clr) { clear_clr_ = clear_clr; }
+
 protected:
     GLFWwindow *get_g_window();
     GLFWmonitor *get_monitor();

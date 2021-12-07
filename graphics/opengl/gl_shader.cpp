@@ -122,7 +122,7 @@ void gl_shader::set_uniform_mat3(const std::string &name, const glm::mat3 &m)
 void gl_shader::set_uniform_mat4(const std::string &name, const glm::mat4 &m)
 {
     GLint loc = glGetUniformLocation(this->gl_id, name.c_str());
-    glUniformMatrix3fv(loc, 1, GL_FALSE, &m[0][0]);
+    glUniformMatrix4fv(loc, 1, GL_FALSE, &m[0][0]);
 }
 
 std::string gl_shader::read_file(const std::string &f_path)

@@ -38,14 +38,18 @@ public:
     virtual std::vector<float> &get_data() = 0;
     virtual unsigned int get_data_size() const = 0;
 
+    inline uint32_t get_vertex_size() const { return this->vertex_size; }
+    inline void set_vertex_size(uint32_t size) { this->vertex_size = size; }
+
     /*
      * Create a graphics api specific vertex_buffer.
      */
     static vertex_buffer *create(uint32_t size);
-    static vertex_buffer *create(float *vertices, uint32_t size);
+    static vertex_buffer *create(float *vertices, uint32_t size, uint32_t vert_size = 3);
 
 protected:
     std::vector<float> vertices;
+    unsigned int vertex_size = 3;
 };
 
 class index_buffer : public buffer {

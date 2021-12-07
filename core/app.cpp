@@ -39,6 +39,9 @@ void app::run()
     while (this->running_) {
         this->window_->clear();
 
+        if (this->scene_)
+            this->scene_->update();
+
         if (this->window_->update())
             this->running_ = false;
     }

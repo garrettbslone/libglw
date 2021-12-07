@@ -4,6 +4,9 @@
 #include "core/app.hpp"
 #include "core/window.hpp"
 
+#include "drawable/cube.hpp"
+#include "drawable/drawable.hpp"
+
 #include "graphics/opengl/gl_buffer.hpp"
 #include "graphics/opengl/gl_framebuffer.hpp"
 #include "graphics/opengl/gl_shader.hpp"
@@ -19,6 +22,8 @@
 
 #include "input/input.hpp"
 #include "input/key_codes.hpp"
+
+#include "scene/scene.hpp"
 
 #include "util/exception.hpp"
 

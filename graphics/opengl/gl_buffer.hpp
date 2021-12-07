@@ -15,7 +15,7 @@ namespace glw {
 class gl_vertex_buffer : public vertex_buffer {
 public:
     gl_vertex_buffer(uint32_t size);
-    gl_vertex_buffer(float *vertices, uint32_t size);
+    gl_vertex_buffer(float *vertices, uint32_t size, uint32_t vert_size);
     virtual ~gl_vertex_buffer();
 
     void bind() const override;
