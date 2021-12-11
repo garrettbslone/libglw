@@ -31,6 +31,8 @@ public:
     void on_mouse_button_down(mouse_button_down_cb cb);
     void on_mouse_button_up(mouse_button_up_cb cb);
 
+    void on_window_resize(resize_cb cb);
+
     void attach_scene(scene *s);
 
     inline window *get_window() { return this->window_; }

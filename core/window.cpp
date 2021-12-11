@@ -108,6 +108,11 @@ void window::set_close_cb(close_cb cb)
     this->data_.close_ = std::move(cb);
 }
 
+void window::set_resize_cb(resize_cb cb)
+{
+    this->data_.resize_ = std::move(cb);
+}
+
 void window::set_title(const std::string& title)
 {
     this->spec_.title_ = title;
@@ -194,6 +199,9 @@ void window::create()
     if (!this->data_.close_)
         this->data_.close_ = _close_cb;
 
+    this->data_.resize_ = nullptr;
+    this->data_.window_ = this;
+
     glfwSetWindowUserPointer(this->native_window_, &this->data_);
     glfwSwapInterval(0);
 
@@ -242,6 +250,16 @@ void window::create()
     glfwSetFramebufferSizeCallback(this->native_window_, [](GLFWwindow *w, int width, int height)
     {
         glViewport(0, 0, width, height);
+    });
+
+    glfwSetWindowSizeCallback(this->native_window_, [](GLFWwindow *w, int width, int height)
+    {
+        auto &data = *((window_data *) glfwGetWindowUserPointer(w));
+
+        if (data.resize_)
+            data.resize_(width, height);
+        else if (data.window_)
+            data.window_->resize(width, height);
     });
 
     this->fb_ = framebuffer::create();

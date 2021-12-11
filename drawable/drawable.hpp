@@ -51,6 +51,15 @@ public:
         this->model_ = glm::scale(this->model_, v);
     }
 
+    inline glm::vec3 get_position()
+    {
+        return {
+            this->model_[3][0],
+            this->model_[3][1],
+            this->model_[3][2]
+        };
+    }
+
 protected:
     topology topology_;
     glm::mat4 model_;

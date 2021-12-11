@@ -76,23 +76,28 @@ int main(int argc, char *argv[])
         auto cc = new cube();
         auto ccc = new cube();
         auto cccc = new cube();
+        auto q = new quad();
 
         c->translate(glm::vec3(-2.f, -2.f, -5.f));
         cc->translate(glm::vec3(-2.f, 2.f, -5.f));
         ccc->translate(glm::vec3(2.f, -2.f, -5.f));
         cccc->translate(glm::vec3(2.f, 2.f, -5.f));
+        q->translate(glm::vec3(0.f, 0.f, -20.f));
 
         s->push_node(c);
         s->push_node(cc);
         s->push_node(ccc);
         s->push_node(cccc);
+        s->push_node(q);
 
         auto sh = shader::create("cube", "vs.glsl", "fs.glsl");
         c->set_shader(sh);
         cc->set_shader(sh);
         ccc->set_shader(sh);
         cccc->set_shader(sh);
-//        c->set_model_mat(glm::scale(glm::mat4(1.f), glm::vec3(100.f, 100.f, 100.f)));
+        q->set_shader(sh);
+
+        q->scale(glm::vec3(100.f, 100.f, 100.f));
         sh->bind();
         auto proj = glm::perspective(glm::radians(45.f), (float) a->get_window()->get_aspect_ratio(), 0.1f, 100.f);
         sh->set_mat4("proj", proj);
@@ -117,7 +122,10 @@ int main(int argc, char *argv[])
             int i = 0;
 
             for (auto n: nodes) {
-                n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
+                if (dynamic_cast<cube *>(n)) {
+                    n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
+                }
+
                 sh->set_mat4("model", n->get_model_mat());
                 n->draw();
             }

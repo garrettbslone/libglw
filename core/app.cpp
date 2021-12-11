@@ -22,7 +22,7 @@ app::app(const app_spec &spec)
     this->window_ = new window({
             spec.title_, spec.width_, spec.height_, spec.fullscreen_
     }, {
-            nullptr, this->input_
+            nullptr, nullptr, nullptr, this->input_
     });
     this->running_ = true;
     this->minimized_ = false;
@@ -75,6 +75,11 @@ void app::on_mouse_button_down(mouse_button_down_cb cb)
 void app::on_mouse_button_up(mouse_button_up_cb cb)
 {
     this->input_->mouse_btn_up = cb;
+}
+
+void app::on_window_resize(resize_cb cb)
+{
+    this->window_->set_resize_cb(cb);
 }
 
 void app::attach_scene(scene *s)

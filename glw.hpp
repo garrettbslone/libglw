@@ -6,11 +6,13 @@
 
 #include "drawable/cube.hpp"
 #include "drawable/drawable.hpp"
+#include "drawable/quad.hpp"
 
 #include "graphics/opengl/gl_buffer.hpp"
 #include "graphics/opengl/gl_framebuffer.hpp"
 #include "graphics/opengl/gl_shader.hpp"
 #include "graphics/opengl/gl_texture.hpp"
+#include "graphics/opengl/topology.hpp"
 #include "graphics/opengl/gl_vertex_array.hpp"
 
 #include "graphics/buffer.hpp"
