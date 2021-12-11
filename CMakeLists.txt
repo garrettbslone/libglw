@@ -28,8 +28,9 @@ FILE(GLOB MATH_SRCS math/*.[ch]pp)
 FILE(GLOB UTIL_SRCS util/*.[ch]pp)
 FILE(GLOB SCENE_SRCS scene/*.[ch]pp)
 FILE(GLOB CORE_SRCS core/*.[ch]pp)
+FILE(GLOB DRAWABLE_SRCS drawable/*.[ch]pp)
 
-add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS} ${SCENE_SRCS} ${CORE_SRCS} drawable/cube.cpp drawable/cube.hpp samples/game.cpp)
+add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS} ${SCENE_SRCS} ${CORE_SRCS} ${DRAWABLE_SRCS})
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${TARGET_DIRS})
 target_link_directories(${PROJECT_NAME} PRIVATE ${TARGET_DIRS})

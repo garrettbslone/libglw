@@ -3,7 +3,7 @@ project(glw)
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(TEST_SRCS "graphics/graphics" "core/app" "core/app-scene" )
+set(TEST_SRCS "graphics/graphics" "core/app" "core/app-scene")
 set(TEST_BINS "graphics" "app" "app-scene")
 
 foreach(BIN SRC IN ZIP_LISTS TEST_BINS TEST_SRCS)

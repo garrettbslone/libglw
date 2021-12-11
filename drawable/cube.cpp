@@ -154,11 +154,20 @@ cube::cube()
 
     this->topology_ = topology::TRIANGLES;
     this->model_ = glm::mat4(1.f);
+    this->shader_ = nullptr;
 }
 
 cube::~cube()
 {
+    this->positions_->unbind();
+    this->uvs_->unbind();
+    this->normals_->unbind();
+    this->va_->unbind();
 
+    delete this->positions_;
+    delete this->uvs_;
+    delete this->normals_;
+    delete this->va_;
 }
 
 void cube::draw()
