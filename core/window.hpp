@@ -30,8 +30,12 @@ struct window_spec {
  */
 using close_cb = std::function<void(void)>;
 
+using resize_cb = std::function<void(int, int)>;
+
 struct window_data {
+    window *window_;
     close_cb close_;
+    resize_cb resize_;
     input *input_;
 };
 
@@ -63,6 +67,7 @@ public:
      * Sets the close callback function to be called upon hitting the x arrow.
      */
     void set_close_cb(close_cb cb);
+    void set_resize_cb(resize_cb cb);
     /*
      * Set the window's title.
      */
@@ -88,6 +93,9 @@ public:
 
     color &get_clear_clr() { return clear_clr_; }
     void set_clear_clr(const color &clear_clr) { clear_clr_ = clear_clr; }
+
+    inline uint32_t get_width() const { return this->spec_.width_; }
+    inline uint32_t get_height() const { return this->spec_.height_; }
 
 protected:
     GLFWwindow *get_g_window();
