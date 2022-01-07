@@ -40,8 +40,8 @@ void gl_vertex_array::add_vertex_buffer(vertex_buffer *buff)
                           buff->get_vertex_size(),
                           GL_FLOAT,
                           GL_FALSE,
-                          0,
-                          reinterpret_cast<GLvoid *>(this->offset_));
+                          buff->get_vertex_size() * sizeof(float),
+                          nullptr);
 
     this->offset_ += buff->get_vertex_size() * sizeof(float);
     this->v_buffs.push_back(buff);
