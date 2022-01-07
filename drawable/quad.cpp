@@ -34,14 +34,20 @@ quad::quad()
     this->uvs_ = vertex_buffer::create(uv.data(), uv.size(), 2);
     this->normals_ = vertex_buffer::create(n.data(), n.size(), 3);
 
-    this->ib_ = nullptr;
+    std::vector<uint32_t> inds = {
+            0, 1, 2,
+            1, 3, 2
+    };
+
+    this->ib_ = index_buffer::create(inds.data(), inds.size());
     this->va_ = vertex_array::create();
+    this->va_->set_index_buffer(this->ib_);
 
     this->va_->add_vertex_buffer(this->positions_);
     this->va_->add_vertex_buffer(this->uvs_);
     this->va_->add_vertex_buffer(this->normals_);
 
-    this->topology_ = topology::TRIANGLE_STRIP;
+    this->topology_ = topology::TRIANGLES;
     this->model_ = glm::mat4(1.f);
     this->shader_ = nullptr;
 }
@@ -50,10 +56,14 @@ quad::~quad()
 {
     this->positions_->unbind();
     this->uvs_->unbind();
+    this->normals_->unbind();
+    this->ib_->unbind();
     this->va_->unbind();
 
     delete this->positions_;
     delete this->uvs_;
+    delete this->normals_;
+    delete this->ib_;
     delete this->va_;
 }
 
