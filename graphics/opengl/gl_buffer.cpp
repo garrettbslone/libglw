@@ -60,7 +60,9 @@ gl_index_buffer::gl_index_buffer(uint32_t *indices, uint32_t count)
 {
     glGenBuffers(1, &this->gl_id);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->gl_id);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count, indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
+
+    this->count = count;
 }
 
 gl_index_buffer::~gl_index_buffer()

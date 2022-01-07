@@ -21,11 +21,12 @@ gl_texture::gl_texture(uint32_t width, uint32_t height)
     this->data_format = GL_RGBA;
 
     glGenTextures(1, &this->gl_id);
+    glBindTexture(GL_TEXTURE_2D, this->gl_id);
 
-    glTexParameteri(this->gl_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(this->gl_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(this->gl_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(this->gl_id, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 }
 
 gl_texture::gl_texture(const std::string &path)
@@ -54,11 +55,12 @@ gl_texture::gl_texture(const std::string &path)
     }
 
     glGenTextures(1, &this->gl_id);
+    glBindTexture(GL_TEXTURE_2D, this->gl_id);
 
-    glTexParameteri(this->gl_id, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(this->gl_id, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(this->gl_id, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(this->gl_id, GL_TEXTURE_WRAP_R, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
 
     glTexImage2D(GL_TEXTURE_2D,
                  0,
