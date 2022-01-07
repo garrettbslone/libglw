@@ -190,7 +190,7 @@ int main(int argc, char *argv[])
 
             for (auto n: nodes) {
                 if (dynamic_cast<cube *>(n))
-                    n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
+                    n->rotate(55.5f * dt, glm::vec3(1.f, 0.3f, 0.5f));
                 else if (dynamic_cast<wormy *>(n))
                     n->translate(wormy_dir * dt);
 
@@ -200,6 +200,7 @@ int main(int argc, char *argv[])
                 _sh->set_float("time", time);
                 _sh->set_mat4("view", view);
                 _sh->set_mat4("model", n->get_model_mat());
+                
                 n->draw();
             }
 
