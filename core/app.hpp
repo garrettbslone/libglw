@@ -10,7 +10,12 @@
 #include "../scene/scene.hpp"
 
 namespace glw {
-
+/*
+ * struct for default app specs
+ * set default app size to 1280*720 pixels
+ * set default title
+ * by default app will not occupy full screen
+ */
 struct app_spec {
     std::string title_{"glw app"};
     uint32_t width_{1280}, height_{720};
@@ -19,12 +24,18 @@ struct app_spec {
 
 class app {
 public:
+    // app constructor
     explicit app(const app_spec &spec);
+    // app destructor
     virtual ~app();
 
     void run();
     void close();
 
+    /*
+     * methods from input.hpp
+     * methods to define mouse and key movements
+     */
     void on_key_down(key_down_cb cb);
     void on_key_up(key_up_cb cb);
     void on_mouse_move(mouse_move_cb cb);

@@ -12,18 +12,20 @@
 
 
 namespace glw {
-
+// create a new window object
 window::window(const window_spec &spec)
     : window(spec, {nullptr, nullptr}) {}
 
 window::window(const window_spec &spec, const window_data &data)
 {
+    // detect monitor to display window
     if (!glfwInit())
         throw viewport_ex("Failed to create window. GLFW init failed");
 
     this->spec_ = spec;
     this->data_ = data;
 
+    // by default display on the primary monitor
     if (!(this->monitor_ = glfwGetPrimaryMonitor())) {
         glfwGetError(&this->err_);
         glfwTerminate();
@@ -40,7 +42,7 @@ window::window(const window_spec &spec, const window_data &data)
 
     this->create();
 }
-
+// destroy window
 window::~window()
 {
     glfwDestroyWindow(this->native_window_);
