@@ -7,6 +7,9 @@
 
 namespace glw {
 
+/*
+ * This can be ignored when using opengl as the api.
+ */
 class descriptor {
 
 };

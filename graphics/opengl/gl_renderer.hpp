@@ -7,10 +7,11 @@
 
 #include "../renderer.hpp"
 
-struct GLFWwindow;
-
 namespace glw {
 
+/*
+ * An OpenGL defined renderer.
+ */
 class gl_renderer : public renderer {
 public:
     gl_renderer(window *w, device *d);
@@ -26,10 +27,8 @@ public:
     buffer *begin_frame() override;
     void end_frame() override;
 
-    void begin_render_pass(buffer *cmd_buffer) override;
-    void end_render_pass(buffer *cmd_buffer) override;
-
-    friend class window;
+    void begin_swap_chain_render_pass(buffer *cmd_buffer) override;
+    void end_swap_chain_render_pass(buffer *cmd_buffer) override;
 };
 
 }

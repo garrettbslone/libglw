@@ -49,12 +49,12 @@ void scene::attach(renderer *r)
 void scene::update()
 {
     auto cmd_buffer = this->renderer_->begin_frame();
-    this->renderer_->begin_render_pass(cmd_buffer);
+    this->renderer_->begin_swap_chain_render_pass(cmd_buffer);
 
     if (this->update_)
         this->update_(this->nodes_);
 
-    this->renderer_->end_render_pass(cmd_buffer);
+    this->renderer_->end_swap_chain_render_pass(cmd_buffer);
     this->renderer_->end_frame();
 }
 
