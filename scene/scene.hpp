@@ -9,6 +9,7 @@
 #include <functional>
 
 #include "../drawable/drawable.hpp"
+#include "../graphics/renderer.hpp"
 
 namespace glw {
 
@@ -22,7 +23,7 @@ public:
     void push_node(drawable *d);
     void pop_node(drawable *d);
 
-    void attach();
+    void attach(renderer *r);
     void update();
 
     void on_update(update_cb cb);
@@ -30,6 +31,7 @@ public:
     std::vector<drawable *> get_nodes();
 
 private:
+    renderer *renderer_;
     std::vector<drawable *> nodes_;
     update_cb update_;
 };

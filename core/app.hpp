@@ -8,6 +8,7 @@
 #include "window.hpp"
 #include "../input/input.hpp"
 #include "../scene/scene.hpp"
+#include "../graphics/graphics_api.hpp"
 
 namespace glw {
 
@@ -15,6 +16,7 @@ struct app_spec {
     std::string title_{"glw app"};
     uint32_t width_{1280}, height_{720};
     bool fullscreen_{false};
+    graphics_api api_{API_OPEN_GL};
 };
 
 class app {
@@ -36,6 +38,8 @@ public:
     void attach_scene(scene *s);
 
     inline window *get_window() { return this->window_; }
+
+    inline app_spec get_spec() const { return this->spec_; }
 
     inline static app &get() { return *app::instance; }
 

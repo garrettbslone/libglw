@@ -3,7 +3,6 @@
 //
 
 #include <algorithm>
-#include <iostream>
 
 #include "scene.hpp"
 
@@ -20,6 +19,7 @@ scene::scene()
 {
     this->nodes_ = std::vector<drawable *>();
     this->update_ = _update_cb;
+    this->renderer_ = nullptr;
 }
 
 scene::~scene()
@@ -40,15 +40,22 @@ void scene::pop_node(drawable *d)
     }
 }
 
-void scene::attach()
+void scene::attach(renderer *r)
 {
-    std::cout << "scene attached\n";
+    this->renderer_ = r;
+    this->renderer_->init();
 }
 
 void scene::update()
 {
+    auto cmd_buffer = this->renderer_->begin_frame();
+    this->renderer_->begin_render_pass(cmd_buffer);
+
     if (this->update_)
         this->update_(this->nodes_);
+
+    this->renderer_->end_render_pass(cmd_buffer);
+    this->renderer_->end_frame();
 }
 
 void scene::on_update(update_cb cb)
