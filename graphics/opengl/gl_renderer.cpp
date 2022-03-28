@@ -7,8 +7,6 @@
 #include "../../ext/glad/gl.h"
 #include "../../ext/glfw/include/GLFW/glfw3.h"
 
-#include "../../util/exception.hpp"
-
 namespace glw {
 
 gl_renderer::gl_renderer(window *w, device *d)
@@ -31,17 +29,21 @@ buffer *gl_renderer::begin_frame()
     return nullptr;
 }
 
+/*
+ * Swap the front and back buffers. This is basically the opengl swap chain.
+ * but it is handled behind the scenes by the opengl context.
+ */
 void gl_renderer::end_frame()
 {
     glfwSwapBuffers(this->window_->get_g_window());
 }
 
-void gl_renderer::begin_render_pass(buffer *cmd_buffer)
+void gl_renderer::begin_swap_chain_render_pass(buffer *cmd_buffer)
 {
 
 }
 
-void gl_renderer::end_render_pass(buffer *cmd_buffer)
+void gl_renderer::end_swap_chain_render_pass(buffer *cmd_buffer)
 {
 
 }

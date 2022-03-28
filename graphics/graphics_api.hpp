@@ -7,6 +7,9 @@
 
 namespace glw {
 
+/*
+ * Primitive topology types for drawing geometry.
+ */
 enum class topology {
   POINTS,
   LINES,
@@ -25,6 +28,9 @@ enum class topology {
 #define TRIANGLE_STRIP_TOPO topology::TRIANGLE_STRIP
 #define TRIANGLE_FAN_TOPO topology::TRIANGLE_FAN
 
+/*
+ * Different API backends.
+ */
 enum class graphics_api {
   OPEN_GL,
   VULKAN,

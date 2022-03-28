@@ -7,6 +7,10 @@
 
 namespace glw {
 
+/*
+ * An abstract device class to handle interactions with CPU/GPU devices.
+ * This can be ignored when using opengl as the api.
+ */
 class device {
 public:
     virtual ~device() = default;
