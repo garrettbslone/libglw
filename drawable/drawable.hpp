@@ -9,20 +9,11 @@
 #include "../ext/glm/glm/ext.hpp"
 
 #include "../graphics/buffer.hpp"
+#include "../graphics/graphics_api.hpp"
 #include "../graphics/shader.hpp"
 #include "../graphics/vertex_array.hpp"
 
 namespace glw {
-
-enum class topology {
-    POINTS,
-    LINES,
-    LINE_LOOP,
-    LINE_STRIP,
-    TRIANGLES,
-    TRIANGLE_STRIP,
-    TRIANGLE_FAN,
-};
 
 class drawable {
 public:

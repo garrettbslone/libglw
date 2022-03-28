@@ -5,8 +5,8 @@
 #ifndef GLW_TOPOLOGY_HPP
 #define GLW_TOPOLOGY_HPP
 
-#include "../../drawable/drawable.hpp"
 #include "../../ext/glad/gl.h"
+#include "graphics_api.hpp"
 
 namespace glw {
 
