@@ -14,5 +14,6 @@ target_include_directories(graphics PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../ext/stb_image PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../etx PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/../ext/glm PUBLIC)
+
 target_link_directories(graphics PRIVATE ${CMAKE_SOURCE_DIR}/ext/glfw/src)
 target_link_libraries(graphics glfw input)

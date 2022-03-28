@@ -9,7 +9,6 @@
 #include "GLFW/glfw3.h"
 
 #include "../graphics/framebuffer.hpp"
-#include "../graphics/graphics_context.hpp"
 #include "../input/input.hpp"
 
 #include <functional>
@@ -17,6 +16,7 @@
 namespace glw {
 
 class window;
+class gl_renderer;
 
 struct window_spec {
     std::string title_{"glw app"};
@@ -122,11 +122,12 @@ private:
     window_data data_;
 
     framebuffer *fb_;
-    graphics_context *graphics_ctx_;
     color clear_clr_;
 
     GLFWwindow *native_window_;
     GLFWmonitor *monitor_;
+
+    friend class gl_renderer;
 };
 
 }

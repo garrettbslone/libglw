@@ -84,8 +84,10 @@ void app::on_window_resize(resize_cb cb)
 
 void app::attach_scene(scene *s)
 {
+    renderer *r = renderer::create(this->window_, nullptr, this->spec_.api_);
+
     this->scene_ = s;
-    this->scene_->attach();
+    this->scene_->attach(r);
 }
 
 }

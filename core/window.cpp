@@ -46,7 +46,6 @@ window::~window()
     glfwDestroyWindow(this->native_window_);
     glfwTerminate();
 
-    delete this->graphics_ctx_;
     delete this->fb_;
 }
 
@@ -127,13 +126,8 @@ void window::set_window_data(const window_data &data)
 
 bool window::update()
 {
-    if (!glfwWindowShouldClose(this->native_window_)) {
-        this->graphics_ctx_->swap_buffers();
-        glfwPollEvents();
-        return false;
-    }
-
-    return true;
+    glfwPollEvents();
+    return static_cast<bool>(glfwWindowShouldClose(this->native_window_));
 }
 
 void *window::get_native_window()
@@ -193,14 +187,15 @@ void window::create()
         throw viewport_ex("Failed to create window: " + std::string(this->err_));
     }
 
-    this->graphics_ctx_ = graphics_context::create(this->native_window_);
-    this->graphics_ctx_->init();
-
     if (!this->data_.close_)
         this->data_.close_ = _close_cb;
 
     this->data_.resize_ = nullptr;
     this->data_.window_ = this;
+
+    glfwMakeContextCurrent(this->native_window_);
+    if (!gladLoadGL(glfwGetProcAddress))
+        throw gl_load_ex("Failed to initialize OpenGL context. GLAD load failed.");
 
     glfwSetWindowUserPointer(this->native_window_, &this->data_);
     glfwSwapInterval(0);

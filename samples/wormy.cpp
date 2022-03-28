@@ -26,7 +26,7 @@ wormy::wormy(int vertex_count, int r)
 
     this->va_->add_vertex_buffer(this->positions_);
 
-    this->topology_ = topology::TRIANGLE_FAN;
+    this->topology_ = TRIANGLE_FAN_TOPO;
     this->model_ = glm::mat4(1.f);
     this->shader_ = nullptr;
 }
