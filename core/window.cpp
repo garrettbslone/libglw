@@ -257,7 +257,7 @@ void window::create()
             data.window_->resize(width, height);
     });
 
-    this->fb_ = framebuffer::create();
+    this->fb_ = framebuffer::create(nullptr, this->data_.api_);
     this->fb_->set_clear_color(color(.66, .23, .54, 1));
     this->resize_framebuffer();
 

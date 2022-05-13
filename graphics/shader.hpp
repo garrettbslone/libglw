@@ -8,6 +8,9 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "device.hpp"
+#include "graphics_api.hpp"
+
 namespace glw {
 
 /*
@@ -42,9 +45,17 @@ public:
     inline const std::string &get_name() const { return this->name; }
 
     /*
+     * Read the contents of 'f_path' as a string.
+     */
+    static std::string read_file(const std::string &f_path);
+    /*
     * Create a graphics api specific shader program.
     */
-    static shader *create(const std::string &name, const std::string &vertex_src, const std::string &fragment_src);
+    static shader *create(const std::string &name,
+            const std::string &vertex_src,
+            const std::string &fragment_src,
+            device *dev,
+            graphics_api api);
 
 protected:
     /*

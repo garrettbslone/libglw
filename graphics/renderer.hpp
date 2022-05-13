@@ -6,9 +6,10 @@
 #define GLW_RENDERER_HPP
 
 #include "../core/window.hpp"
+
 #include "buffer.hpp"
 #include "graphics_api.hpp"
-#include "swap_chain.hpp"
+#include "pipeline.hpp"
 
 namespace glw {
 
@@ -51,7 +52,7 @@ public:
      * Initialize the current frame in the renderer and retrieve the command buffer
      * to target.
      */
-    virtual buffer *begin_frame() = 0;
+    virtual command_buffer *begin_frame() = 0;
     /*
      * End thd current frame after the render pass has been completed. Must be called
      * at the end of each frame render pass. Ensures that front buffer gets swapped out.
@@ -63,13 +64,15 @@ public:
      * must be called after and with the buffer reference returned from begin_frame.
      * This can be ignored when using opengl as the api.
      */
-    virtual void begin_swap_chain_render_pass(buffer *cmd_buffer) = 0;
+    virtual void begin_swap_chain_render_pass(command_buffer *cmd_buffer) = 0;
     /*
      * End the render pass on the swap chain that began during begin_swap_chain_render_pass.
      * This must be called after and with the same buffer reference that was passed to
      * begin_swap_chain_render_pass. This can be ignored when using opengl as the api.
      */
-    virtual void end_swap_chain_render_pass(buffer *cmd_buffer) = 0;
+    virtual void end_swap_chain_render_pass(command_buffer *cmd_buffer) = 0;
+
+    virtual void *get_descriptor_set() = 0;
 
     /*
      * Create an api specific renderer context.
@@ -81,7 +84,7 @@ protected:
      * Base constructor needed for derived classes since the copy & move
      * constructors were deleted in the base class.
      */
-    renderer(window *w, device *d);
+    explicit renderer(window *w);
 
     /*
      * Helper functions to help allocate & deallocate the command buffers
@@ -97,12 +100,10 @@ protected:
     virtual void recreate_swap_chain();
 
     window *window_;
-    device *device_;
-    swap_chain *swap_chain_;
-    std::vector<buffer *> command_buffers_{};
+    std::vector<command_buffer *> command_buffers_{};
 
     /*
-     * Indices to keep track fo which frame and image in the swap chain the
+     * Indices to keep track of which frame and image in the swap chain the
      * renderer is targeting. These can be ignored when using opengl as the api.
      */
     uint32_t current_image_index_{0};

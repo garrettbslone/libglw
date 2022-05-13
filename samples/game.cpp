@@ -130,7 +130,7 @@ int main(int argc, char *argv[])
         s->push_node(worm[0]);
         s->push_node(cubes[0]);
 
-        auto cube_sh = shader::create("cube", "vs.glsl", "fs.glsl");
+        auto cube_sh = shader::create("cube", "vs.glsl", "fs.glsl", nullptr, API_OPEN_GL);
         cubes[0]->set_shader(cube_sh);
 
         background->scale(glm::vec3(100.f, 100.f, 100.f));
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         auto proj = glm::perspective(glm::radians(45.f), (float) a->get_window()->get_aspect_ratio(), 0.1f, 100.f);
         cube_sh->set_mat4("proj", proj);
 
-        auto wormy_sh = shader::create("wormy", "wormy.vs.glsl", "wormy.fs.glsl");
+        auto wormy_sh = shader::create("wormy", "wormy.vs.glsl", "wormy.fs.glsl", nullptr, API_OPEN_GL);
         worm[0]->set_shader(wormy_sh);
         wormy_sh->bind();
         wormy_sh->set_mat4("proj", glm::ortho(-((float) a->get_window()->get_width() / 2.0f),
@@ -150,7 +150,7 @@ int main(int argc, char *argv[])
                                               -1000.0f,
                                               1000.0f));
 
-        auto board_sh = shader::create("board", "board.vs.glsl", "board.fs.glsl");
+        auto board_sh = shader::create("board", "board.vs.glsl", "board.fs.glsl", nullptr, API_OPEN_GL);
         background->set_shader(board_sh);
         board_sh->bind();
         board_sh->set_mat4("proj", proj);
@@ -180,8 +180,9 @@ int main(int argc, char *argv[])
             bg_height = height;
         });
 
-        s->on_update([&prev_time, &start_time, &s, &cubes, &cube_map, &cube_sh](const std::vector<drawable *> &nodes)
+        s->on_update([&prev_time, &start_time, &s, &cubes, &cube_map, &cube_sh](frame_info &info)
         {
+            auto nodes = info.nodes;
             auto time = (float) glfwGetTime();
             auto dt = time - prev_time;
             prev_time = time;

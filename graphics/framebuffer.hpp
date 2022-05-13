@@ -8,6 +8,8 @@
 #include <cstdint>
 
 #include "color.hpp"
+#include "graphics_api.hpp"
+#include "swap_chain.hpp"
 
 namespace glw {
 
@@ -33,7 +35,7 @@ public:
     inline void set_resize_cb(framebuffer_size_cb cb) { this->fb_cb = cb; }
     inline void set_clear_color(const color& clr) { this->clear_clr = clr; }
 
-    static framebuffer *create();
+    static framebuffer *create(swap_chain *chain, graphics_api api);
 
 protected:
     color clear_clr;

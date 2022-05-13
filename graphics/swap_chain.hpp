@@ -14,7 +14,16 @@ namespace glw {
  * This can be ignored when using opengl as the api.
  */
 class swap_chain {
+public:
+    static constexpr int MAX_FRAMES_IN_FLIGHT = 2;
 
+    virtual ~swap_chain() = default;
+
+    swap_chain(const swap_chain &) = delete;
+    swap_chain &operator=(const swap_chain &) = delete;
+
+protected:
+    swap_chain() = default;
 };
 
 }

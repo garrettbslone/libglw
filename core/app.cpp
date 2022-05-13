@@ -22,7 +22,7 @@ app::app(const app_spec &spec)
     this->window_ = new window({
             spec.title_, spec.width_, spec.height_, spec.fullscreen_
     }, {
-            nullptr, nullptr, nullptr, this->input_
+            nullptr, nullptr, nullptr, this->input_, spec.api_
     });
     this->running_ = true;
     this->minimized_ = false;

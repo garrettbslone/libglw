@@ -141,16 +141,32 @@ cube::cube()
             0.0f, 1.0f, 0.0f,
     };
 
-    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
-    this->uvs_ = vertex_buffer::create(uv.data(), uv.size(), 2);
-    this->normals_ = vertex_buffer::create(n.data(), n.size(), 3);
+    std::vector<vertex> v(p.size() / 3);
+    for (auto i = 0; i < p.size(); i++) {
+        vertex _v;
+
+        _v.position = {p[i], p[i + 1], p[i + 2]};
+        _v.color = {0.f, 0.f, 0.f};
+        _v.normal = {n[i], n[i + 1], n[i + 2]};
+        _v.uv = {uv[i], uv[i + 1]};
+
+        v[i] = _v;
+    }
+
+//    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
+//    this->uvs_ = vertex_buffer::create(uv.data(), uv.size(), 2);
+//    this->normals_ = vertex_buffer::create(n.data(), n.size(), 3);
+
+    this->positions_ = vertex_buffer::create(v);
 
     this->ib_ = nullptr;
     this->va_ = vertex_array::create();
 
     this->va_->add_vertex_buffer(this->positions_);
-    this->va_->add_vertex_buffer(this->uvs_);
-    this->va_->add_vertex_buffer(this->normals_);
+
+//    this->va_->add_vertex_buffer(this->positions_);
+//    this->va_->add_vertex_buffer(this->uvs_);
+//    this->va_->add_vertex_buffer(this->normals_);
 
     this->topology_ = topology::TRIANGLES;
     this->model_ = glm::mat4(1.f);
@@ -160,13 +176,13 @@ cube::cube()
 cube::~cube()
 {
     this->positions_->unbind();
-    this->uvs_->unbind();
-    this->normals_->unbind();
+//    this->uvs_->unbind();
+//    this->normals_->unbind();
     this->va_->unbind();
 
     delete this->positions_;
-    delete this->uvs_;
-    delete this->normals_;
+//    delete this->uvs_;
+//    delete this->normals_;
     delete this->va_;
 }
 

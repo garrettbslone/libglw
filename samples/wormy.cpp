@@ -8,18 +8,25 @@
 
 wormy::wormy(int vertex_count, int r)
 {
-    std::vector<float> p;
+    std::vector<vertex> p;
 
     float slice = 2 * PI / vertex_count;
 
     for (auto i = 0; i < vertex_count; i ++) {
         float rads = i * slice;
-
-        p.push_back(r * glm::cos(rads));
-        p.push_back(r * glm::sin(rads));
+        vertex v = {
+                {r * glm::cos(rads), 0, r * glm::sin(rads)},
+                {0.f, 0.f, 0.f},
+                {0.f, 1.f, 0.f},
+                {0.f, 0.f}
+        };
+        p.push_back(v);
+//        p.push_back(r * glm::cos(rads));
+//        p.push_back(r * glm::sin(rads));
     }
 
-    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
+//    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
+    this->positions_ = vertex_buffer::create(p);
 
     this->ib_ = nullptr;
     this->va_ = vertex_array::create();

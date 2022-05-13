@@ -3,3 +3,30 @@
 //
 
 #include "device.hpp"
+#ifdef HAVE_VULKAN
+#include "vulkan/vk_device.hpp"
+#endif
+
+namespace glw {
+
+device *device::create(window *w, graphics_api api)
+{
+    switch (api) {
+#ifdef HAVE_VULKAN
+    case API_VULKAN:
+        return new vk_device(w);
+#endif
+    case API_OPEN_GL:
+    case API_NONE:
+    default:
+        return nullptr;
+    }
+}
+
+device::device(window *w)
+    : window_(w)
+{
+
+}
+
+}

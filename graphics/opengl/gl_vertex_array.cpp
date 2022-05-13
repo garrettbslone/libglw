@@ -33,17 +33,40 @@ void gl_vertex_array::add_vertex_buffer(vertex_buffer *buff)
 {
     glBindVertexArray(this->gl_id);
 
-    buff->bind();
+    buff->bind(nullptr);
+
+
+    // calculate stride from number of non-empty vertex attribute arrays
+    // position + color + normal + uv
+//    size_t stride = (3 + 3 + 3 + 2) * sizeof(float);
+//
+//    size_t offset = 0;
+//    glEnableVertexAttribArray(0);
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+////    offset += buff->get_data_size() * sizeof(float);
+//
+//    glEnableVertexAttribArray(1);
+//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+////    offset += 3 * sizeof(float);
+////    offset *= 2;
+//
+//    glEnableVertexAttribArray(2);
+//    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+////    offset += 3 * sizeof(float);
+////    offset *= 2;
+//
+//    glEnableVertexAttribArray(3);
+//    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
 
     glEnableVertexAttribArray(this->v_buff_index);
     glVertexAttribPointer(this->v_buff_index++,
-                          buff->get_vertex_size(),
+                          3,
                           GL_FLOAT,
                           GL_FALSE,
-                          buff->get_vertex_size() * sizeof(float),
+                          0,
                           nullptr);
 
-    this->offset_ += buff->get_vertex_size() * sizeof(float);
+    this->offset_ += 3 * sizeof(float);
     this->v_buffs.push_back(buff);
 }
 
@@ -52,7 +75,7 @@ void gl_vertex_array::set_index_buffer(index_buffer *buff)
     glBindVertexArray(this->gl_id);
 
     this->i_buff = buff;
-    this->i_buff->bind();
+    this->i_buff->bind(nullptr);
 }
 
 }

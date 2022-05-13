@@ -4,15 +4,27 @@
 
 #include "pipeline.hpp"
 
-glw::pipeline *glw::pipeline::create(glw::device *d,
-        const glw::pipeline_config_info &info,
-        const std::string &vert_path,
-        const std::string &frag_path)
-{
-    return nullptr;
-}
+#ifdef HAVE_VULKAN
+#include "vulkan/vk_pipeline.hpp"
+#endif
 
-void glw::pipeline::default_config_info(glw::pipeline_config_info &info)
+namespace glw {
+
+pipeline *pipeline::create(device *d,
+        pipeline_config_info *info,
+        const std::string &vert_path,
+        const std::string &frag_path,
+        graphics_api api)
 {
+    switch (api) {
+#ifdef HAVE_VULKAN
+    case API_VULKAN:
+        return reinterpret_cast<pipeline *>(new vk_pipeline(d, info, vert_path, frag_path));
+#endif
+    case API_OPEN_GL:
+    case API_NONE:
+    default:
+        return nullptr;
+    }}
 
 }
