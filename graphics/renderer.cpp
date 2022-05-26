@@ -11,12 +11,12 @@
 
 namespace glw {
 
-renderer *renderer::create(window *w, device *d, graphics_api api)
+renderer *renderer::create(window *w)
 {
-    switch (api) {
+    switch (api::active) {
 #ifdef HAVE_VULKAN
     case API_VULKAN:
-            return new vk_renderer(w, d);
+            return new vk_renderer(w);
 #endif
         case API_OPEN_GL:
         case API_NONE:

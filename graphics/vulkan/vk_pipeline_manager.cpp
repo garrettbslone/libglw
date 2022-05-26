@@ -83,11 +83,10 @@ vk_pipeline *vk_pipeline_manager::create_pipeline(
         pipeline_config.pipeline_layout = pipeline_layout;
 
         vk_pipeline *p = reinterpret_cast<vk_pipeline *>(pipeline::create(
-                dev,
                 &pipeline_config,
                 vert_path,
-                frag_path,
-                API_VULKAN));
+                frag_path
+        ));
 
         pipeline_data data = {
                 p,

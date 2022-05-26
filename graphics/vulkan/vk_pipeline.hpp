@@ -46,10 +46,11 @@ private:
 
 class vk_pipeline {
 public:
-    vk_pipeline(device *dev,
+    vk_pipeline(
             pipeline_config_info *info,
             const std::string &vert_path,
-            const std::string &frag_path);
+            const std::string &frag_path
+    );
     virtual ~vk_pipeline();
 
     vk_pipeline(const pipeline &p) = delete;

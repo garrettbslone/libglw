@@ -19,6 +19,43 @@ glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f, 3.0f);
 glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f, 0.0f);
 
+void mouse_mv(double x, double y)
+{
+//    cout << "Mouse: (" << x << ", " << y << ")\n";
+}
+
+void key_down(int k)
+{
+    switch ((key) k) {
+        case KEY_UP:
+            cameraPos += glm::vec3(0.f, 0.25f, 0.f);
+            break;
+        case KEY_LEFT:
+            cameraPos += glm::vec3(-0.25f, 0.f, 0.f);
+            break;
+        case KEY_RIGHT:
+            cameraPos += glm::vec3(0.25f, 0.f, 0.f);
+            break;
+        case KEY_DOWN:
+            cameraPos += glm::vec3(0.f, -0.25f, 0.f);
+            break;
+    }
+
+    cout << "Key pressed: " << (key) k << endl;
+}
+
+void on_click(int btn)
+{
+    cout << "Mouse button clicked: " << btn << endl;
+
+    auto c = a->get_window()->get_clear_clr();
+    auto d = c.raw_data();
+
+    d[rand() % 4] = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+    c.set(d);
+    a->get_window()->set_clear_clr(c);
+}
+
 int main(int argc, char *argv[])
 {
     srand(time(0));
@@ -28,6 +65,9 @@ int main(int argc, char *argv[])
             "test app", 1280, 900, false
         };
         a = new app(spec);
+        a->on_mouse_move(mouse_mv);
+        a->on_key_down(key_down);
+        a->on_mouse_button_down(on_click);
 
         auto *s = new scene;
         a->attach_scene(s);
@@ -70,7 +110,7 @@ int main(int argc, char *argv[])
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
 
-        s->on_update([t, sh](frame_info &info)
+        s->on_update([t, sh](const std::vector<drawable *> &nodes)
         {
             t->bind(0);
             sh->bind();
@@ -81,7 +121,7 @@ int main(int argc, char *argv[])
 
             int i = 0;
 
-            for (auto n: info.nodes) {
+            for (auto n: nodes) {
                 if (dynamic_cast<cube *>(n)) {
                     n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
                 }

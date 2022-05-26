@@ -45,6 +45,12 @@ enum class graphics_api {
 #endif
 #define API_NONE graphics_api::NONE
 
+namespace api {
+
+extern graphics_api active;
+
+}
+
 }
 
 #endif //GLW_GRAPHICS_API_HPP

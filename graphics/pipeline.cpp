@@ -10,16 +10,16 @@
 
 namespace glw {
 
-pipeline *pipeline::create(device *d,
+pipeline *pipeline::create(
         pipeline_config_info *info,
         const std::string &vert_path,
-        const std::string &frag_path,
-        graphics_api api)
+        const std::string &frag_path
+)
 {
-    switch (api) {
+    switch (api::active) {
 #ifdef HAVE_VULKAN
     case API_VULKAN:
-        return reinterpret_cast<pipeline *>(new vk_pipeline(d, info, vert_path, frag_path));
+        return reinterpret_cast<pipeline *>(new vk_pipeline(info, vert_path, frag_path));
 #endif
     case API_OPEN_GL:
     case API_NONE:

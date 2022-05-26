@@ -12,12 +12,13 @@ namespace glw {
 
 class vk_buffer : public buffer {
 public:
-    vk_buffer(vk_device *dev,
+    vk_buffer(
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
-        VkDeviceSize min_offset_alignment = 1);
+        VkDeviceSize min_offset_alignment = 1
+    );
     ~vk_buffer() override;
 
     vk_buffer(const vk_buffer&) = delete;
@@ -74,14 +75,16 @@ protected:
     friend class vk_swap_chain;
 };
 
-class vk_vertex_buffer : public vk_buffer, vertex_buffer {
+class vk_vertex_buffer : public vk_buffer, public vertex_buffer {
 public:
-    vk_vertex_buffer(vk_device *dev,
+    vk_vertex_buffer(
+        const std::vector<vertex> &vertices,
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
-        VkDeviceSize min_offset_alignment = 1);
+        VkDeviceSize min_offset_alignment = 1
+    );
     ~vk_vertex_buffer() override;
     void bind(struct command_buffer *cmds) const override;
     void unbind() const override;
@@ -98,14 +101,16 @@ private:
     friend class vk_swap_chain;
 };
 
-class vk_index_buffer : public vk_buffer, index_buffer {
+class vk_index_buffer : public vk_buffer, public index_buffer {
 public:
-    vk_index_buffer(vk_device *dev,
+    vk_index_buffer(
+        const std::vector<uint32_t> &indices,
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
-        VkDeviceSize min_offset_alignment = 1);
+        VkDeviceSize min_offset_alignment = 1
+    );
 
     void write_data(void *vertices, uint64_t size, uint64_t offset) override;
     ~vk_index_buffer() override;

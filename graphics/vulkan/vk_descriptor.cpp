@@ -15,7 +15,9 @@ vk_descriptor_set_layout::builder &vk_descriptor_set_layout::builder::add_bindin
         uint32_t binding,
         VkDescriptorType descriptor_type,
         VkShaderStageFlags stage_flags,
-        uint32_t count) {
+        uint32_t count
+)
+{
     assert(this->bindings_.count(binding) == 0 && "Binding already in use");
 
     VkDescriptorSetLayoutBinding layoutBinding{};
@@ -30,15 +32,18 @@ vk_descriptor_set_layout::builder &vk_descriptor_set_layout::builder::add_bindin
     return *this;
 }
 
-vk_descriptor_set_layout *vk_descriptor_set_layout::builder::build() const {
-    return new vk_descriptor_set_layout(this->device_, this->bindings_);
+vk_descriptor_set_layout *vk_descriptor_set_layout::builder::build() const
+{
+    return new vk_descriptor_set_layout(this->bindings_);
 }
 
 // *************** Descriptor Set Layout *********************
 
-vk_descriptor_set_layout::vk_descriptor_set_layout(vk_device *d,
-        const std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding>& bindings)
-        : device_{d}, bindings_{bindings} {
+vk_descriptor_set_layout::vk_descriptor_set_layout(
+        const std::unordered_map<uint32_t,
+        VkDescriptorSetLayoutBinding>& bindings
+) : device_{vk_device::get()}, bindings_{bindings}
+{
     std::vector<VkDescriptorSetLayoutBinding> set_layout_bindings{};
 
     for (auto [k, v] : bindings) {
@@ -83,20 +88,21 @@ vk_descriptor_pool::builder &vk_descriptor_pool::builder::set_max_sets(uint32_t 
 }
 
 vk_descriptor_pool *vk_descriptor_pool::builder::build() const {
-    return new vk_descriptor_pool(this->device_,
+    return new vk_descriptor_pool(
             this->max_sets_,
             this->pool_flags_,
-            this->pool_sizes_);
+            this->pool_sizes_
+    );
 }
 
 // *************** Descriptor Pool *********************
 
 vk_descriptor_pool::vk_descriptor_pool(
-        vk_device *d,
         uint32_t maxSets,
         VkDescriptorPoolCreateFlags poolFlags,
-        const std::vector<VkDescriptorPoolSize> &poolSizes)
-        : device_{d} {
+        const std::vector<VkDescriptorPoolSize> &poolSizes
+) : device_{vk_device::get()}
+{
     VkDescriptorPoolCreateInfo descriptor_pool_info{};
 
     descriptor_pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -118,7 +124,8 @@ vk_descriptor_pool::~vk_descriptor_pool() {
 
 bool vk_descriptor_pool::allocate_descriptor_set(
         VkDescriptorSetLayout descriptor_set_layout,
-        VkDescriptorSet &descriptor) const {
+        VkDescriptorSet &descriptor) const
+{
     VkDescriptorSetAllocateInfo alloc_info{};
 
     alloc_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;

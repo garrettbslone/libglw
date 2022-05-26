@@ -14,14 +14,14 @@ namespace glw {
 
 uint8_t vk_swap_chain::swap_chain_image = 0;
 
-vk_swap_chain::vk_swap_chain(vk_device *dev, VkExtent2D window_extent)
-        : device_{dev}, window_extent_{window_extent}
+vk_swap_chain::vk_swap_chain(VkExtent2D window_extent)
+        : device_{vk_device::get()}, window_extent_{window_extent}
 {
     init();
 }
 
-vk_swap_chain::vk_swap_chain(vk_device *dev, VkExtent2D window_extent, vk_swap_chain *previous)
-        : device_{dev}, window_extent_{window_extent}, old_swap_chain_{previous}
+vk_swap_chain::vk_swap_chain(VkExtent2D window_extent, vk_swap_chain *previous)
+        : device_{vk_device::get()}, window_extent_{window_extent}, old_swap_chain_{previous}
 {
     init();
 }

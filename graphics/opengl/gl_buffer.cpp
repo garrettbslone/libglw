@@ -7,55 +7,19 @@
 
 namespace glw {
 
-gl_vertex_buffer::gl_vertex_buffer(const std::vector<vertex_data> &vertices, unsigned int vertex_size)
+gl_vertex_buffer::gl_vertex_buffer(const std::vector<vertex> &vertices)
 {
-    if (vertices[0].is_float) {
-        std::vector<float> verts{};
 
-        for (auto &v: vertices) {
-            verts.push_back(v.f);
-        }
+    auto data = vertex::to_floats(vertices);
 
-        glGenBuffers(1, &this->gl_id);
-        glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
-        glBufferData(
-                GL_ARRAY_BUFFER,
-                verts.size() * sizeof(float),
-                reinterpret_cast<const void *>(verts.data()),
-                GL_STATIC_DRAW);
-    } else if (vertices[0].interleaved) {
-        std::vector<vertex> verts{};
-
-        for (auto &v: vertices) {
-            verts.push_back(v.v);
-        }
-
-        auto data = vertex::coalesce_interleaved(verts);
-
-        glGenBuffers(1, &this->gl_id);
-        glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
-        glBufferData(
-                GL_ARRAY_BUFFER,
-                data.size() * sizeof(float),
-                reinterpret_cast<const void *>(data.data()),
-                GL_STATIC_DRAW);
-    } else {
-        std::vector<vertex> verts{};
-
-        for (auto &v: vertices) {
-            verts.push_back(v.v);
-        }
-
-        auto data = vertex::coalesce(verts);
-
-        glGenBuffers(1, &this->gl_id);
-        glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
-        glBufferData(
-                GL_ARRAY_BUFFER,
-                data.size() * sizeof(float),
-                reinterpret_cast<const void *>(data.data()),
-                GL_STATIC_DRAW);
-    }
+    glGenBuffers(1, &this->gl_id);
+    glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
+    glBufferData(
+            GL_ARRAY_BUFFER,
+            data.size() * sizeof(float),
+            reinterpret_cast<const void *>(data.data()),
+            GL_STATIC_DRAW
+    );
 
     this->vertices_ = vertices;
 }
@@ -80,9 +44,10 @@ void gl_vertex_buffer::write_data(void *vertices, uint64_t size, uint64_t offset
     glBindBuffer(GL_ARRAY_BUFFER, this->gl_id);
     glBufferData(
             GL_ARRAY_BUFFER,
-            size * sizeof(vertex),
+            size * sizeof(float),
             reinterpret_cast<const void *>(vertices),
-            GL_STATIC_DRAW);
+            GL_STATIC_DRAW
+    );
 
     this->vertices_.clear();
     this->vertices_.reserve(size);
@@ -130,7 +95,8 @@ void gl_index_buffer::write_data(void *indices, uint64_t size, uint64_t offset)
             GL_ELEMENT_ARRAY_BUFFER,
             size * sizeof(uint32_t),
             reinterpret_cast<const void *>(indices),
-            GL_STATIC_DRAW);
+            GL_STATIC_DRAW
+    );
 
     this->count_ = size;
 }

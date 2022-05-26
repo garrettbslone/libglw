@@ -10,14 +10,14 @@
 
 namespace glw {
 
-vk_renderer::vk_renderer(window *w, device *d)
-        :renderer(w),
-         swap_chain_(nullptr),
-         pipeline_manager_(nullptr),
-         global_pool_(nullptr),
-         global_set_layout_(nullptr)
+vk_renderer::vk_renderer(window *w)
+        : renderer(w),
+          swap_chain_(nullptr),
+          pipeline_manager_(nullptr),
+          global_pool_(nullptr),
+          global_set_layout_(nullptr)
 {
-    if (!(this->device_ = dynamic_cast<vk_device *>(d)))
+    if (!(this->device_ = vk_device::get()))
         throw vulkan_device_ex("A vulkan device is required to create a vulkan renderer!");
 }
 
@@ -196,10 +196,10 @@ void vk_renderer::recreate_swap_chain()
     vkDeviceWaitIdle(this->device_->device_);
 
     if (!this->swap_chain_)
-        this->swap_chain_ = new vk_swap_chain(this->device_, extent);
+        this->swap_chain_ = new vk_swap_chain(extent);
     else {
         vk_swap_chain *old_swap_chain = this->swap_chain_;
-        this->swap_chain_ = new vk_swap_chain(this->device_, extent, old_swap_chain);
+        this->swap_chain_ = new vk_swap_chain(extent, old_swap_chain);
 
         if (!old_swap_chain->compare_swap_formats(*this->swap_chain_))
             throw vulkan_image_ex("Swap chain image(or depth) format has changed!");
@@ -215,12 +215,12 @@ command_buffer *vk_renderer::get_current_command_buffer() const
 
 void vk_renderer::build_descriptor_sets()
 {
-    this->global_pool_ = vk_descriptor_pool::builder(this->device_)
+    this->global_pool_ = vk_descriptor_pool::builder()
             .set_max_sets(swap_chain::MAX_FRAMES_IN_FLIGHT)
             .add_pool_size(VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, swap_chain::MAX_FRAMES_IN_FLIGHT)
             .build();
 
-    this->global_set_layout_ = vk_descriptor_set_layout::builder(this->device_)
+    this->global_set_layout_ = vk_descriptor_set_layout::builder()
             .add_binding(0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, VK_SHADER_STAGE_ALL_GRAPHICS)
             .build();
 
@@ -229,7 +229,6 @@ void vk_renderer::build_descriptor_sets()
     for (auto i = 0; i < swap_chain::MAX_FRAMES_IN_FLIGHT; i++) {
         this->uniform_buffers_.push_back(
                 new vk_buffer(
-                    this->device_,
                     sizeof(global_ubo),
                     1,
                     VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,

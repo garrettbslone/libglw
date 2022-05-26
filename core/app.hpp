@@ -41,11 +41,6 @@ public:
 
     inline app_spec get_spec() const { return this->spec_; }
 
-    inline static graphics_api active_api()
-    {
-        return app::instance ? app::instance->spec_.api_ : API_NONE;
-    }
-
     inline static app &get() { return *app::instance; }
 
 private:

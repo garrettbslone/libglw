@@ -25,12 +25,13 @@ vk_pipeline_config_info::vk_pipeline_config_info()
     this->subpass = -1;
 }
 
-vk_pipeline::vk_pipeline(device *dev,
+vk_pipeline::vk_pipeline(
         pipeline_config_info *info,
         const std::string &vert_path,
-        const std::string &frag_path)
+        const std::string &frag_path
+)
 {
-    if (!(this->device_ = dynamic_cast<vk_device *>(dev)))
+    if (!(this->device_ = vk_device::get()))
         throw vulkan_load_ex("a vulkan device is needed to create a vulkan pipeline.");
 
     this->create_pipeline(dynamic_cast<vk_pipeline_config_info *>(info), vert_path, frag_path);
@@ -128,11 +129,11 @@ void vk_pipeline::create_pipeline(vk_pipeline_config_info *info,
         const std::string &vert_path,
         const std::string &frag_path)
 {
-    this->shader_ = dynamic_cast<vk_shader *>(shader::create("pipeline shader",
+    this->shader_ = dynamic_cast<vk_shader *>(shader::create(
+            "pipeline shader",
             vert_path,
-            frag_path,
-            this->device_,
-            API_VULKAN));
+            frag_path
+    ));
 
     VkPipelineShaderStageCreateInfo shader_stages[2]{};
 

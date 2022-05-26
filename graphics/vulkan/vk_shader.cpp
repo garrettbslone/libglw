@@ -7,23 +7,24 @@
 
 namespace glw {
 
-vk_shader::vk_shader(const std::string &name,
+vk_shader::vk_shader(
+        const std::string &name,
         const std::string &vertex_src,
-        const std::string &fragment_src,
-        device *dev)
+        const std::string &fragment_src
+)
 {
     this->name = name;
 
-    if (!(this->device_ = dynamic_cast<vk_device *>(dev)))
+    if (!(this->device_ = vk_device::get()))
         throw vulkan_device_ex("a vk_device is required to create a vk_shader!");
 
     auto code = shader::read_file(vertex_src);
     std::vector<char> code_vec = std::vector<char>(code.begin(), code.end());
-    this->create_shader_module(code_vec, &this->vert_sm_, this->device_->device_);
+    create_shader_module(code_vec, &this->vert_sm_, this->device_->device_);
 
     code = shader::read_file(fragment_src);
     code_vec = std::vector<char>(code.begin(), code.end());
-    this->create_shader_module(code_vec, &this->frag_sm_, this->device_->device_);
+    create_shader_module(code_vec, &this->frag_sm_, this->device_->device_);
 }
 
 vk_shader::~vk_shader()

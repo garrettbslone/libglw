@@ -52,7 +52,7 @@ cube::cube()
             0.5f, 0.5f, -0.5f,
             0.5f, 0.5f, 0.5f,
             -0.5f, 0.5f, -0.5f,
-            -0.5f, 0.5f, 0.5f,
+            -0.5f, 0.5f, 0.5f
     };
     std::vector<float> uv = {
             0.0f, 0.0f,
@@ -95,7 +95,7 @@ cube::cube()
             1.0f, 1.0f,
             1.0f, 0.0f,
             0.0f, 1.0f,
-            0.0f, 0.0f,
+            0.0f, 0.0f
     };
     std::vector<float> n = {
             0.0f, 0.0f, -1.0f,
@@ -138,7 +138,7 @@ cube::cube()
             0.0f, 1.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f
     };
 
     std::vector<vertex> v(p.size() / 3);
@@ -157,7 +157,7 @@ cube::cube()
 //    this->uvs_ = vertex_buffer::create(uv.data(), uv.size(), 2);
 //    this->normals_ = vertex_buffer::create(n.data(), n.size(), 3);
 
-    this->positions_ = vertex_buffer::create(v);
+    this->positions_ = vertex_buffer::create(vertex::from_floats(p, n, n, uv));
 
     this->ib_ = nullptr;
     this->va_ = vertex_array::create();

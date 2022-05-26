@@ -51,11 +51,11 @@ public:
     /*
     * Create a graphics api specific shader program.
     */
-    static shader *create(const std::string &name,
+    static shader *create(
+            const std::string &name,
             const std::string &vertex_src,
-            const std::string &fragment_src,
-            device *dev,
-            graphics_api api);
+            const std::string &fragment_src
+    );
 
 protected:
     /*

@@ -16,7 +16,7 @@ namespace glw {
 
 class vk_renderer : public renderer {
 public:
-    vk_renderer(window *w, device *d);
+    vk_renderer(window *w);
     ~vk_renderer() override;
 
     void init() override;

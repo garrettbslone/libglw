@@ -38,35 +38,24 @@ void gl_vertex_array::add_vertex_buffer(vertex_buffer *buff)
 
     // calculate stride from number of non-empty vertex attribute arrays
     // position + color + normal + uv
-//    size_t stride = (3 + 3 + 3 + 2) * sizeof(float);
-//
-//    size_t offset = 0;
-//    glEnableVertexAttribArray(0);
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
-////    offset += buff->get_data_size() * sizeof(float);
-//
-//    glEnableVertexAttribArray(1);
-//    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
-////    offset += 3 * sizeof(float);
-////    offset *= 2;
-//
-//    glEnableVertexAttribArray(2);
-//    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
-////    offset += 3 * sizeof(float);
-////    offset *= 2;
-//
-//    glEnableVertexAttribArray(3);
-//    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+    size_t stride = (3 + 3 + 3 + 2) * sizeof(float);
 
-    glEnableVertexAttribArray(this->v_buff_index);
-    glVertexAttribPointer(this->v_buff_index++,
-                          3,
-                          GL_FLOAT,
-                          GL_FALSE,
-                          0,
-                          nullptr);
+    size_t offset = 0;
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+    offset += 3 * sizeof(float);
 
-    this->offset_ += 3 * sizeof(float);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+    offset += 3 * sizeof(float);
+
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+    offset += 3 * sizeof(float);
+
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offset);
+
     this->v_buffs.push_back(buff);
 }
 

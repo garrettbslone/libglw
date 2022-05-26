@@ -26,6 +26,8 @@ app::app(const app_spec &spec)
     });
     this->running_ = true;
     this->minimized_ = false;
+
+    api::active = spec.api_;
 }
 
 app::~app()
@@ -84,7 +86,7 @@ void app::on_window_resize(resize_cb cb)
 
 void app::attach_scene(scene *s)
 {
-    renderer *r = renderer::create(this->window_, nullptr, this->spec_.api_);
+    renderer *r = renderer::create(this->window_);
 
     this->scene_ = s;
     this->scene_->attach(r);

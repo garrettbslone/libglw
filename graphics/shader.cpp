@@ -30,16 +30,16 @@ std::string shader::read_file(const std::string &f_path)
     return res;
 }
 
-shader *shader::create(const std::string &name,
+shader *shader::create(
+        const std::string &name,
         const std::string &vertex_src,
-        const std::string &fragment_src,
-        device *dev,
-        graphics_api api)
+        const std::string &fragment_src
+)
 {
-    switch (api) {
+    switch (api::active) {
 #ifdef HAVE_VULKAN
     case API_VULKAN:
-        return new vk_shader(name, vertex_src, fragment_src, dev);
+        return new vk_shader(name, vertex_src, fragment_src);
 #endif
     case API_OPEN_GL:
     case API_NONE:

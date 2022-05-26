@@ -10,17 +10,16 @@
 namespace glw {
 
 vk_buffer::vk_buffer(
-        vk_device *dev,
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
         VkDeviceSize min_offset_alignment)
-        : device_{dev},
-          instance_size_{instance_size},
+        : instance_size_{instance_size},
           instance_count_{instance_count},
           usage_flags_{usage_flags},
           memory_property_flags_{memory_property_flags} {
+    this->device_ = vk_device::get(),
     this->alignment_size_ = get_alignment(instance_size, min_offset_alignment);
     this->buffer_size_ = this->alignment_size_ * instance_count;
 
@@ -223,21 +222,21 @@ void vk_buffer::write_data(void *data, uint64_t size, uint64_t offset)
 }
 
 vk_vertex_buffer::vk_vertex_buffer(
-        vk_device *dev,
+        const std::vector<vertex> &vertices,
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
         VkDeviceSize min_offset_alignment)
         : vk_buffer(
-            dev,
             instance_size,
             instance_count,
             usage_flags,
             memory_property_flags,
             min_offset_alignment)
 {
-
+    this->map();
+    this->write_to_buffer(static_cast<void *>(vertex::to_floats(vertices).data()));
 }
 
 void vk_vertex_buffer::bind(struct command_buffer *cmds) const
@@ -275,21 +274,21 @@ vk_vertex_buffer::~vk_vertex_buffer()
 }
 
 vk_index_buffer::vk_index_buffer(
-        vk_device *dev,
+        const std::vector<uint32_t> &indices,
         VkDeviceSize instance_size,
         uint32_t instance_count,
         VkBufferUsageFlags usage_flags,
         VkMemoryPropertyFlags memory_property_flags,
         VkDeviceSize min_offset_alignment)
         : vk_buffer(
-            dev,
             instance_size,
             instance_count,
             usage_flags,
             memory_property_flags,
             min_offset_alignment)
 {
-
+    this->map();
+    this->write_to_buffer((void *) indices.data());
 }
 
 void vk_index_buffer::write_data(void *indices, uint64_t size, uint64_t offset)

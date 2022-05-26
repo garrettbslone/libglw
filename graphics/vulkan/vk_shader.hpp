@@ -15,10 +15,11 @@ class vk_pipeline;
 
 class vk_shader : public shader {
 public:
-    vk_shader(const std::string &name,
+    vk_shader(
+            const std::string &name,
             const std::string &vertex_src,
-            const std::string &fragment_src,
-            device *dev);
+            const std::string &fragment_src
+    );
     ~vk_shader() override;
 
     void bind() const override;

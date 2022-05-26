@@ -35,7 +35,7 @@ public:
     inline void set_resize_cb(framebuffer_size_cb cb) { this->fb_cb = cb; }
     inline void set_clear_color(const color& clr) { this->clear_clr = clr; }
 
-    static framebuffer *create(swap_chain *chain, graphics_api api);
+    static framebuffer *create(swap_chain *chain);
 
 protected:
     color clear_clr;

@@ -44,6 +44,12 @@ public:
     explicit vk_device(window *w);
     ~vk_device() override;
 
+    // Not copyable or movable
+    vk_device(const vk_device &) = delete;
+    vk_device &operator=(const vk_device &) = delete;
+    vk_device(vk_device &&) = delete;
+    vk_device &operator=(vk_device &&) = delete;
+
 private:
 #ifdef NDEBUG
     const bool enable_validation_layers = false;
@@ -127,6 +133,9 @@ private:
 
     const std::vector<const char *> validation_layers_ = {"VK_LAYER_KHRONOS_validation"};
     const std::vector<const char *> device_extensions_ = {VK_KHR_SWAPCHAIN_EXTENSION_NAME};
+
+    static vk_device *get() { return instance; }
+    static vk_device *instance;
 
     friend class vk_buffer;
     friend class vk_descriptor_set_layout;

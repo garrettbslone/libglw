@@ -16,7 +16,7 @@ class vk_descriptor_set_layout {
 public:
     class builder {
     public:
-        explicit builder(vk_device *d) : device_{d} {}
+        explicit builder() : device_{vk_device::get()} {}
 
         builder &add_binding(
                 uint32_t binding,
@@ -30,8 +30,10 @@ public:
         std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding> bindings_{};
     };
 
-    vk_descriptor_set_layout(vk_device *dev,
-            const std::unordered_map<uint32_t, VkDescriptorSetLayoutBinding>& bindings);
+    vk_descriptor_set_layout(
+            const std::unordered_map<uint32_t,
+            VkDescriptorSetLayoutBinding>& bindings
+    );
     ~vk_descriptor_set_layout();
 
     vk_descriptor_set_layout(const vk_descriptor_set_layout &) = delete;
@@ -55,7 +57,7 @@ class vk_descriptor_pool {
 public:
     class builder {
     public:
-        builder(vk_device *d) : device_{d} {}
+        builder() : device_{vk_device::get()} {}
 
         builder &add_pool_size(VkDescriptorType descriptor_type, uint32_t count);
         builder &set_pool_flags(VkDescriptorPoolCreateFlags flags);
@@ -70,10 +72,10 @@ public:
     };
 
     vk_descriptor_pool(
-            vk_device *dev,
             uint32_t max_sets,
             VkDescriptorPoolCreateFlags pool_flags,
-            const std::vector<VkDescriptorPoolSize> &pool_sizes);
+            const std::vector<VkDescriptorPoolSize> &pool_sizes
+    );
     ~vk_descriptor_pool();
 
     vk_descriptor_pool(const vk_descriptor_pool &) = delete;

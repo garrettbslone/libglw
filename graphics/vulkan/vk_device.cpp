@@ -14,6 +14,8 @@
 
 namespace glw {
 
+vk_device *vk_device::instance = nullptr;
+
 static VKAPI_ATTR VkBool32 VKAPI_CALL debug_cb(
         VkDebugReportFlagsEXT                       flags,
         VkDebugReportObjectTypeEXT                  objectType,
@@ -129,6 +131,9 @@ void DestroyDebugUtilsMessengerEXT(
 vk_device::vk_device(window *w)
         : device(w)
 {
+    if (instance)
+        return;
+
     create_instance();
     setup_debug_messenger();
     create_surface();
@@ -136,6 +141,8 @@ vk_device::vk_device(window *w)
     create_logical_device();
     create_command_pool();
     setup_debug_logger();
+
+    vk_device::instance = this;
 }
 
 vk_device::~vk_device() {

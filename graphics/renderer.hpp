@@ -77,7 +77,7 @@ public:
     /*
      * Create an api specific renderer context.
      */
-    static renderer *create(window *w, device *d, graphics_api api);
+    static renderer *create(window *w);
 
 protected:
     /*

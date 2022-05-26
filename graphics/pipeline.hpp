@@ -49,11 +49,11 @@ public:
     /*
      * Create an api specific pipeline.
      */
-    static pipeline *create(device *d,
+    static pipeline *create(
             pipeline_config_info *info,
             const std::string &vert_path,
-            const std::string &frag_path,
-            graphics_api api);
+            const std::string &frag_path
+    );
 
 private:
     /*

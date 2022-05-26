@@ -18,8 +18,8 @@ class vk_framebuffer;
 
 class vk_swap_chain : public swap_chain {
 public:
-    vk_swap_chain(vk_device *dev, VkExtent2D window_extent);
-    vk_swap_chain(vk_device *dev, VkExtent2D window_extent, vk_swap_chain *previous);
+    vk_swap_chain(VkExtent2D window_extent);
+    vk_swap_chain(VkExtent2D window_extent, vk_swap_chain *previous);
     ~vk_swap_chain() override;
 
     vk_swap_chain(const vk_swap_chain &) = delete;

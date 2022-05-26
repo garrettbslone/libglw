@@ -14,7 +14,7 @@ namespace glw {
  */
 class gl_vertex_buffer : public vertex_buffer {
 public:
-    gl_vertex_buffer(const std::vector<vertex_data> &vertices, unsigned int vertex_size);
+    gl_vertex_buffer(const std::vector<vertex> &vertices);
     virtual ~gl_vertex_buffer();
 
     void bind(command_buffer *cmds) const override;
@@ -26,7 +26,7 @@ private:
     /*
      * gl_id: the index id of the vertex_array in the OpenGL state machine.
      */
-    uint32_t gl_id, vertex_size;
+    uint32_t gl_id;
 };
 
 /*

@@ -10,9 +10,9 @@
 
 namespace glw {
 
-framebuffer *framebuffer::create(swap_chain *chain, graphics_api api)
+framebuffer *framebuffer::create(swap_chain *chain)
 {
-    switch (api) {
+    switch (api::active) {
 #ifdef HAVE_VULKAN
     case API_VULKAN:
         return new vk_framebuffer(chain);

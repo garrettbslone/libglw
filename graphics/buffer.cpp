@@ -12,53 +12,63 @@
 
 namespace glw {
 
-buffer *buffer::create(class device *d,
+buffer *buffer::create(
         uint64_t size,
         uint32_t count,
         uint32_t usage,
-        uint32_t memory_usage,
-        buffer_type type)
+        uint32_t memory_usage
+)
 {
 #ifdef HAVE_VULKAN
-    vk_device *vkd;
-    if (!(vkd = dynamic_cast<vk_device *>(d)))
-        throw vulkan_device_ex("A vulkan device is required to create a vulkan buffer!");
-
-    switch (type) {
-    case INDEX_BUFFER:
-        return dynamic_cast<vk_buffer *>(new vk_index_buffer(
-                vkd,
-                size,
-                count,
-                usage,
-                memory_usage));
-    case VERTEX_BUFFER:
-        return dynamic_cast<vk_buffer *>(new vk_vertex_buffer(
-                vkd,
-                size,
-                count,
-                usage,
-                memory_usage));
-    case GENERIC_BUFFER:
-    default:
-        return new vk_buffer(vkd, size, count, usage, memory_usage);
-    }
+    return api::active == API_VULKAN ?
+        new vk_buffer(size, count, usage, memory_usage) : nullptr;
 #else
     return nullptr;
 #endif
 }
 
 vertex_buffer *vertex_buffer::create(
-        const std::vector<vertex_data> &vertices,
-        unsigned int vertex_size
-        )
+        const std::vector<vertex> &vertices,
+        uint64_t size,
+        uint32_t count,
+        uint32_t usage,
+        uint32_t memory_usage
+)
 {
-    return new gl_vertex_buffer(vertices, vertex_size);
+#ifdef HAVE_VULKAN
+    switch (api::active) {
+    case API_VULKAN:
+        return new vk_vertex_buffer(vertices, size, count, usage, memory_usage);
+    case API_OPEN_GL:
+    case API_NONE:
+    default:
+        return new gl_vertex_buffer(vertices);
+    }
+#else
+    return new gl_vertex_buffer(vertices);
+#endif
 }
 
-index_buffer *index_buffer::create(const std::vector<uint32_t> &indices)
+index_buffer *index_buffer::create(
+        const std::vector<uint32_t> &indices,
+        uint64_t size,
+        uint32_t count,
+        uint32_t usage,
+        uint32_t memory_usage
+)
 {
+#ifdef HAVE_VULKAN
+    switch (api::active) {
+    case API_VULKAN:
+        return new vk_index_buffer(indices, size, count, usage, memory_usage);
+    case API_OPEN_GL:
+    case API_NONE:
+    default:
+        return new gl_index_buffer(indices);
+    }
+#else
     return new gl_index_buffer(indices);
+#endif
 }
 
 command_buffer *command_buffer::create()
