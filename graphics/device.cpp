@@ -17,7 +17,6 @@ device *device::create(window *w, graphics_api api)
         return new vk_device(w);
 #endif
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return nullptr;
     }

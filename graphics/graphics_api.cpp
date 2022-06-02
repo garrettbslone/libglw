@@ -6,6 +6,6 @@
 
 namespace glw::api {
 
-graphics_api active = API_NONE;
+graphics_api active = API_OPEN_GL;
 
 }

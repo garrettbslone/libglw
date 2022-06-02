@@ -22,7 +22,6 @@ pipeline *pipeline::create(
         return reinterpret_cast<pipeline *>(new vk_pipeline(info, vert_path, frag_path));
 #endif
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return nullptr;
     }}

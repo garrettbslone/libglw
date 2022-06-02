@@ -40,7 +40,6 @@ vertex_buffer *vertex_buffer::create(
     case API_VULKAN:
         return new vk_vertex_buffer(vertices, size, count, usage, memory_usage);
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return new gl_vertex_buffer(vertices);
     }
@@ -62,7 +61,6 @@ index_buffer *index_buffer::create(
     case API_VULKAN:
         return new vk_index_buffer(indices, size, count, usage, memory_usage);
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return new gl_index_buffer(indices);
     }

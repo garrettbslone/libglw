@@ -36,14 +36,12 @@ enum class graphics_api {
 #ifdef HAVE_VULKAN
   VULKAN,
 #endif
-  NONE,
 };
 
 #define API_OPEN_GL graphics_api::OPEN_GL
 #ifdef HAVE_VULKAN
 #define API_VULKAN graphics_api::VULKAN
 #endif
-#define API_NONE graphics_api::NONE
 
 namespace api {
 

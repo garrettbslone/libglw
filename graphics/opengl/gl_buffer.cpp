@@ -17,7 +17,7 @@ gl_vertex_buffer::gl_vertex_buffer(const std::vector<vertex> &vertices)
     glBufferData(
             GL_ARRAY_BUFFER,
             data.size() * sizeof(float),
-            reinterpret_cast<const void *>(data.data()),
+            (void *) data.data(),
             GL_STATIC_DRAW
     );
 

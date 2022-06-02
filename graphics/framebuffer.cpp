@@ -18,7 +18,6 @@ framebuffer *framebuffer::create(swap_chain *chain)
         return new vk_framebuffer(chain);
 #endif
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return new gl_framebuffer();
     }

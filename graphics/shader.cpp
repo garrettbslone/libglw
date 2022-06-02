@@ -42,7 +42,6 @@ shader *shader::create(
         return new vk_shader(name, vertex_src, fragment_src);
 #endif
     case API_OPEN_GL:
-    case API_NONE:
     default:
         return new gl_shader(name, vertex_src, fragment_src);
     }

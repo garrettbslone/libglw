@@ -19,7 +19,6 @@ renderer *renderer::create(window *w)
             return new vk_renderer(w);
 #endif
         case API_OPEN_GL:
-        case API_NONE:
         default:
             return new gl_renderer(w);
     }
