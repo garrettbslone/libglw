@@ -37,6 +37,7 @@ struct window_data {
     close_cb close_;
     resize_cb resize_;
     input *input_;
+    graphics_api api_;
 };
 
 /*
@@ -97,6 +98,9 @@ public:
     inline uint32_t get_width() const { return this->spec_.width_; }
     inline uint32_t get_height() const { return this->spec_.height_; }
 
+    inline bool is_framebuffer_resized() const { return this->fb_resized_; }
+    inline void set_framebuffer_resized(const bool &resized) { this->fb_resized_ = resized; }
+
 protected:
     GLFWwindow *get_g_window();
     GLFWmonitor *get_monitor();
@@ -116,6 +120,7 @@ private:
      */
     void create();
 
+    bool fb_resized_{false};
     const char *err_{nullptr};
 
     window_spec spec_;

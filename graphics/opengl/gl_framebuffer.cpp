@@ -13,7 +13,8 @@ void _framebuffer_resize_cb(int width, int height)
 
 gl_framebuffer::gl_framebuffer()
 {
-    this->init();
+    glGenFramebuffers(1, &this->fb_id);
+    this->fb_cb = &_framebuffer_resize_cb;
 }
 
 gl_framebuffer::~gl_framebuffer()

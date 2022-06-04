@@ -9,8 +9,8 @@
 
 namespace glw {
 
-gl_renderer::gl_renderer(window *w, device *d)
-    : renderer(w, d)
+gl_renderer::gl_renderer(window *w)
+    : renderer(w)
 {
 }
 
@@ -24,7 +24,7 @@ float gl_renderer::get_aspect_ratio() const
     return static_cast<float>(this->window_->get_aspect_ratio());
 }
 
-buffer *gl_renderer::begin_frame()
+command_buffer * gl_renderer::begin_frame()
 {
     return nullptr;
 }
@@ -35,17 +35,22 @@ buffer *gl_renderer::begin_frame()
  */
 void gl_renderer::end_frame()
 {
-    glfwSwapBuffers(this->window_->get_g_window());
+    glfwSwapBuffers(this->window_->native_window_);
 }
 
-void gl_renderer::begin_swap_chain_render_pass(buffer *cmd_buffer)
+void gl_renderer::begin_swap_chain_render_pass(command_buffer *cmd_buffer)
 {
 
 }
 
-void gl_renderer::end_swap_chain_render_pass(buffer *cmd_buffer)
+void gl_renderer::end_swap_chain_render_pass(command_buffer *cmd_buffer)
 {
 
+}
+
+void *gl_renderer::get_descriptor_set()
+{
+    return nullptr;
 }
 
 }

@@ -4,12 +4,23 @@
 
 #include "framebuffer.hpp"
 #include "opengl/gl_framebuffer.hpp"
+#ifdef HAVE_VULKAN
+#include "vulkan/vk_framebuffer.hpp"
+#endif
 
 namespace glw {
 
-framebuffer *framebuffer::create()
+framebuffer *framebuffer::create(swap_chain *chain)
 {
-    return new gl_framebuffer();
+    switch (api::active) {
+#ifdef HAVE_VULKAN
+    case API_VULKAN:
+        return new vk_framebuffer(chain);
+#endif
+    case API_OPEN_GL:
+    default:
+        return new gl_framebuffer();
+    }
 }
 
 }

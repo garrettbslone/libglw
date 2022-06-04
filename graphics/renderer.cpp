@@ -5,32 +5,42 @@
 #include "renderer.hpp"
 
 #include "opengl/gl_renderer.hpp"
+#ifdef HAVE_VULKAN
 #include "vulkan/vk_renderer.hpp"
+#endif
 
 namespace glw {
 
-renderer *renderer::create(window *w, device *d, graphics_api api)
+renderer *renderer::create(window *w)
 {
-    renderer *r = nullptr;
-
-    switch (api) {
-        case API_VULKAN: {
-            r = new vk_renderer(w, d);
-            break;
-        }
+    switch (api::active) {
+#ifdef HAVE_VULKAN
+    case API_VULKAN:
+            return new vk_renderer(w);
+#endif
         case API_OPEN_GL:
-        case API_NONE:
-        default: {
-            r = new gl_renderer(w, d);
-            break;
-        }
+        default:
+            return new gl_renderer(w);
     }
-
-    return r;
 }
 
-renderer::renderer(window *w, device *d)
-    : window_(w), device_(d)
+renderer::renderer(window *w)
+    : window_(w)
+{
+
+}
+
+void renderer::create_command_buffers()
+{
+
+}
+
+void renderer::free_command_buffers()
+{
+
+}
+
+void renderer::recreate_swap_chain()
 {
 
 }

@@ -19,6 +19,9 @@ namespace glw {
  */
 class pipeline_config_info {
 public:
+    pipeline_config_info() = default;
+    virtual ~pipeline_config_info() = default;
+
     /*
      * Not copyable or movable.
      */
@@ -46,15 +49,11 @@ public:
     /*
      * Create an api specific pipeline.
      */
-    static pipeline *create(device *d,
-            const pipeline_config_info &info,
+    static pipeline *create(
+            pipeline_config_info *info,
             const std::string &vert_path,
-            const std::string &frag_path);
-
-    /*
-     * Create the default configuration for a pipeline.
-     */
-    static void default_config_info(pipeline_config_info &info);
+            const std::string &frag_path
+    );
 
 private:
     /*
