@@ -8,23 +8,36 @@
 
 wormy::wormy(int vertex_count, int r)
 {
-    std::vector<float> p;
+    std::vector<vertex> p;
 
-    float slice = 2 * PI / vertex_count;
+    float slice = 2 * PI / vertex_count,x , y;
 
-    for (auto i = 0; i < vertex_count; i ++) {
+    for (auto i = vertex_count - 1; i >= 0; i--) {
         float rads = i * slice;
 
-        p.push_back(r * glm::cos(rads));
-        p.push_back(r * glm::sin(rads));
+        if (i % 2 == 0) {
+            x = slice;
+            y = 0.f;
+        } else {
+            x = r * glm::cos(rads);
+            y = r * glm::sin(rads);
+        }
+
+        vertex v = {
+                {x, y, 0.f},
+                {0.f, 0.f, 0.f},
+                {0.f, 1.f, 0.f},
+                {0.f, 0.f}
+        };
+        p.push_back(v);
     }
 
-    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
+    this->vertices_ = vertex_buffer::create(p);
 
     this->ib_ = nullptr;
     this->va_ = vertex_array::create();
 
-    this->va_->add_vertex_buffer(this->positions_);
+    this->va_->add_vertex_buffer(this->vertices_);
 
     this->topology_ = TRIANGLE_FAN_TOPO;
     this->model_ = glm::mat4(1.f);
@@ -48,5 +61,5 @@ void wormy::draw()
     else
         glDrawArrays(gl_topology::get_gl_topology(this->topology_),
                      0,
-                     (GLint) this->positions_->get_data_size());
+                     (GLint) this->vertices_->get_data_size());
 }

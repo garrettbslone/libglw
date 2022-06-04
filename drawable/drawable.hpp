@@ -58,7 +58,7 @@ protected:
 
     index_buffer *ib_;
     vertex_array *va_;
-    vertex_buffer *positions_, *uvs_, *normals_;
+    vertex_buffer *vertices_;
 };
 
 }
