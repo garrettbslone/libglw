@@ -34,7 +34,7 @@ add_library(${PROJECT_NAME} STATIC glw.cpp glw.hpp ${MATH_SRCS} ${UTIL_SRCS} ${S
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${TARGET_DIRS})
 target_link_directories(${PROJECT_NAME} PRIVATE ${TARGET_DIRS})
-target_link_libraries(${PROJECT_NAME} graphics)
+target_link_libraries(${PROJECT_NAME} PUBLIC graphics)
 
 add_subdirectory(t)
 add_subdirectory(samples)

@@ -5,7 +5,11 @@
 #ifndef GLW_DEVICE_HPP
 #define GLW_DEVICE_HPP
 
+#include "graphics_api.hpp"
+
 namespace glw {
+
+class window;
 
 /*
  * An abstract device class to handle interactions with CPU/GPU devices.
@@ -20,6 +24,13 @@ public:
     device &operator=(const device &) = delete;
     device(device &&) = delete;
     device &operator=(device &&) = delete;
+
+    static device *create(window *w, graphics_api api);
+
+protected:
+    device(window *w);
+
+    window *window_;
 };
 
 }

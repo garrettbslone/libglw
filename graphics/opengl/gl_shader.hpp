@@ -43,10 +43,6 @@ public:
 
 private:
     /*
-     * Read the contents of 'f_path' as a string.
-     */
-    std::string read_file(const std::string &f_path);
-    /*
      * Reads two glsl shaders and compiles them into a shader program.
      * Throws a gl_load_ex exception on failure.
      */

@@ -2,7 +2,6 @@
 // Created by Garrett on 11/5/2021.
 //
 
-#include <random>
 #include <iostream>
 #include <glw.hpp>
 #include <glm/glm.hpp>
@@ -62,7 +61,7 @@ int main(int argc, char *argv[])
 
     try {
         app_spec spec = {
-            "test app", 1280, 900, false
+                "test app", 1280, 900, false
         };
         a = new app(spec);
         a->on_mouse_move(mouse_mv);
@@ -110,26 +109,26 @@ int main(int argc, char *argv[])
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
 
-        s->on_update([t, sh](const std::vector<drawable *> &nodes)
-        {
-            t->bind(0);
-            sh->bind();
-            sh->set_float("time", (float) glfwGetTime());
+        s->on_update([t, sh](frame_info &info)
+                     {
+                         t->bind(0);
+                         sh->bind();
+                         sh->set_float("time", (float) glfwGetTime());
 
-            glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-            sh->set_mat4("view", view);
+                         glm::mat4 view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+                         sh->set_mat4("view", view);
 
-            int i = 0;
+                         int i = 0;
 
-            for (auto n: nodes) {
-                if (dynamic_cast<cube *>(n)) {
-                    n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
-                }
+                         for (auto n: info.nodes) {
+                             if (dynamic_cast<cube *>(n)) {
+                                 n->rotate(0.045f, glm::vec3(1.f, 0.3f, 0.5f));
+                             }
 
-                sh->set_mat4("model", n->get_model_mat());
-                n->draw();
-            }
-        });
+                             sh->set_mat4("model", n->get_model_mat());
+                             n->draw();
+                         }
+                     });
 
         a->run();
         delete a;

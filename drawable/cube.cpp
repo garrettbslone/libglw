@@ -52,7 +52,7 @@ cube::cube()
             0.5f, 0.5f, -0.5f,
             0.5f, 0.5f, 0.5f,
             -0.5f, 0.5f, -0.5f,
-            -0.5f, 0.5f, 0.5f,
+            -0.5f, 0.5f, 0.5f
     };
     std::vector<float> uv = {
             0.0f, 0.0f,
@@ -95,7 +95,7 @@ cube::cube()
             1.0f, 1.0f,
             1.0f, 0.0f,
             0.0f, 1.0f,
-            0.0f, 0.0f,
+            0.0f, 0.0f
     };
     std::vector<float> n = {
             0.0f, 0.0f, -1.0f,
@@ -138,19 +138,17 @@ cube::cube()
             0.0f, 1.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
             0.0f, 1.0f, 0.0f,
-            0.0f, 1.0f, 0.0f,
+            0.0f, 1.0f, 0.0f
     };
 
-    this->positions_ = vertex_buffer::create(p.data(), p.size(), 3);
-    this->uvs_ = vertex_buffer::create(uv.data(), uv.size(), 2);
-    this->normals_ = vertex_buffer::create(n.data(), n.size(), 3);
+    auto c = std::vector<float>(p.size(), 0.f);
 
+    this->vertices_ = vertex_buffer::create(vertex::from_floats(p, c, n, uv));
     this->ib_ = nullptr;
-    this->va_ = vertex_array::create();
 
-    this->va_->add_vertex_buffer(this->positions_);
-    this->va_->add_vertex_buffer(this->uvs_);
-    this->va_->add_vertex_buffer(this->normals_);
+    this->va_ = vertex_array::create();
+    this->va_->add_vertex_buffer(this->vertices_);
+
 
     this->topology_ = topology::TRIANGLES;
     this->model_ = glm::mat4(1.f);
@@ -159,15 +157,9 @@ cube::cube()
 
 cube::~cube()
 {
-    this->positions_->unbind();
-    this->uvs_->unbind();
-    this->normals_->unbind();
-    this->va_->unbind();
+    this->vertices_->unbind();
 
-    delete this->positions_;
-    delete this->uvs_;
-    delete this->normals_;
-    delete this->va_;
+    delete this->vertices_;
 }
 
 void cube::draw()
@@ -182,7 +174,7 @@ void cube::draw()
     else
         glDrawArrays(gl_topology::get_gl_topology(this->topology_),
                 0,
-                (GLint) this->positions_->get_data_size());
+                (GLint) this->vertices_->get_data_size());
 }
 
 }

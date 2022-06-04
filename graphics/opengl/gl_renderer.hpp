@@ -14,7 +14,7 @@ namespace glw {
  */
 class gl_renderer : public renderer {
 public:
-    gl_renderer(window *w, device *d);
+    explicit gl_renderer(window *w);
     ~gl_renderer() override = default;
 
     gl_renderer(const gl_renderer &) = delete;
@@ -24,11 +24,13 @@ public:
 
     float get_aspect_ratio() const override;
 
-    buffer *begin_frame() override;
+    command_buffer * begin_frame() override;
     void end_frame() override;
 
-    void begin_swap_chain_render_pass(buffer *cmd_buffer) override;
-    void end_swap_chain_render_pass(buffer *cmd_buffer) override;
+    void begin_swap_chain_render_pass(command_buffer *cmd_buffer) override;
+    void end_swap_chain_render_pass(command_buffer *cmd_buffer) override;
+
+    void *get_descriptor_set() override;
 };
 
 }

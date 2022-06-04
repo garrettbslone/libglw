@@ -33,13 +33,21 @@ enum class topology {
  */
 enum class graphics_api {
   OPEN_GL,
+#ifdef HAVE_VULKAN
   VULKAN,
-  NONE,
+#endif
 };
 
 #define API_OPEN_GL graphics_api::OPEN_GL
+#ifdef HAVE_VULKAN
 #define API_VULKAN graphics_api::VULKAN
-#define API_NONE graphics_api::NONE
+#endif
+
+namespace api {
+
+extern graphics_api active;
+
+}
 
 }
 

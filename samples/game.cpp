@@ -180,8 +180,9 @@ int main(int argc, char *argv[])
             bg_height = height;
         });
 
-        s->on_update([&prev_time, &start_time, &s, &cubes, &cube_map, &cube_sh](const std::vector<drawable *> &nodes)
+        s->on_update([&prev_time, &start_time, &s, &cubes, &cube_map, &cube_sh](frame_info &info)
         {
+            auto nodes = info.nodes;
             auto time = (float) glfwGetTime();
             auto dt = time - prev_time;
             prev_time = time;

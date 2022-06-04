@@ -5,6 +5,7 @@
 #ifndef GLW_SCENE_HPP
 #define GLW_SCENE_HPP
 
+#include <chrono>
 #include <vector>
 #include <functional>
 
@@ -13,7 +14,15 @@
 
 namespace glw {
 
-using update_cb = std::function<void(std::vector<drawable *>)>;
+struct frame_info {
+    int frame_index;
+    float frame_time;
+    command_buffer *cmd_buffer;
+    void *descriptor_set;
+    std::vector<drawable *> nodes;
+};
+
+using update_cb = std::function<void(frame_info &)>;
 
 class scene {
 public:
@@ -34,6 +43,7 @@ private:
     renderer *renderer_;
     std::vector<drawable *> nodes_;
     update_cb update_;
+    std::chrono::time_point<std::chrono::high_resolution_clock> prev_time{};
 };
 
 }
